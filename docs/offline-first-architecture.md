@@ -42,7 +42,7 @@ External connections:
 ```bash
 # Models run entirely on your hardware
 ~/ai-models/
-├── microsoft-phi-3-mini-4k-instruct.gguf     # 2.4GB
+├── microsoft-phi4-mini-4k-instruct.gguf     # 2.4GB
 ├── deepseek-coder-6.7b-instruct.gguf         # 3.8GB
 ├── your-custom-pm-assistant.gguf              # Fine-tuned for PM tasks
 └── mixtral-8x7b-instruct.gguf                 # Advanced reasoning
@@ -74,7 +74,7 @@ services:
 LLM_BASE_URL=http://localhost:1234/v1         # Local LM Studio
 LLM_DOCKER_URL=http://host.docker.internal:1234/v1  # For containers
 LLM_API_KEY=local-lmstudio-key                # Fake key, no external auth
-LLM_MODEL_NAME=microsoft-phi-3-mini-4k-instruct-gguf
+LLM_MODEL_NAME=microsoft-phi4-mini-4k-instruct-gguf
 ```
 
 ## 💰 Cost Analysis: Local vs. Cloud
@@ -160,7 +160,7 @@ training_data = [
 ]
 
 # Fine-tune locally with your PM methodology
-fine_tune_model(base_model="phi-3-mini", domain_data=training_data)
+fine_tune_model(base_model="phi4-mini", domain_data=training_data)
 ```
 
 #### 2. **Context-Aware Workflows**
@@ -230,7 +230,7 @@ local_rag = AnythingLLM(
 {
   "apiKey": "local-lmstudio-key",           // Fake key
   "baseURL": "http://localhost:1234/v1",    // Local endpoint
-  "model": "phi-3-mini"                     // Local model
+  "model": "phi4-mini"                     // Local model
 }
 
 // Tool makes request to localhost:1234, not api.openai.com
@@ -344,7 +344,7 @@ Claude Projects    → LangFlow + conversation memory
 ### Minimum Viable Setup:
 1. **Hardware**: 16GB+ RAM laptop (32GB recommended)
 2. **Software**: This toolkit + LM Studio
-3. **Models**: Phi-3 Mini (2.4GB) for general use
+3. **Models**: Phi-4 Mini (2.4GB) for general use
 4. **Time Investment**: 2-4 hours initial setup
 
 ### Scaling Up:

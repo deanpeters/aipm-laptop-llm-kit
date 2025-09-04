@@ -92,7 +92,7 @@ VS Code extensions use **configuration files** instead of environment variables.
     {
       "title": "Local Phi-3",
       "provider": "openai",
-      "model": "microsoft-phi-3-mini-4k-instruct-gguf",
+      "model": "microsoft-phi4-mini-4k-instruct-gguf",
       "apiBase": "http://localhost:1234/v1",
       "apiKey": "not-needed"
     }
@@ -109,7 +109,7 @@ AnythingLLM calls API configurations **LLM Provider Settings**.
 - **Provider**: "Generic OpenAI" (even for local models)
 - **Base URL**: `http://host.docker.internal:1234/v1`
 - **API Key**: `local-api-key` (any text works)
-- **Model**: `microsoft-phi-3-mini-4k-instruct-gguf`
+- **Model**: `microsoft-phi4-mini-4k-instruct-gguf`
 
 ## 🌐 Network Terminology
 
@@ -142,7 +142,7 @@ Use for: n8n, LangFlow, AnythingLLM, any Docker containers
 - "Claude 3"
 
 #### **Model IDs** (technical identifiers):
-- `microsoft-phi-3-mini-4k-instruct-gguf`
+- `microsoft-phi4-mini-4k-instruct-gguf`
 - `gpt-4-1106-preview`
 - `claude-3-sonnet-20240229`
 
@@ -248,7 +248,7 @@ Some tools require an API key field even for local models. Common solutions:
 # Core local LLM setup
 LLM_BASE_URL=http://localhost:1234/v1
 LLM_API_KEY=local-lmstudio-key
-LLM_MODEL_NAME=microsoft-phi-3-mini-4k-instruct-gguf
+LLM_MODEL_NAME=microsoft-phi4-mini-4k-instruct-gguf
 LLM_DOCKER_URL=http://host.docker.internal:1234/v1
 ~~~
 

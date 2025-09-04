@@ -89,7 +89,7 @@ The Continue.dev extension is **already pre-configured** to work with your local
 {
   "models": [
     {
-      "title": "Phi-3 Mini (Local)",
+      "title": "Phi-4 Mini (Local)",
       "provider": "ollama",
       "model": "phi4-mini:latest",
       "apiBase": "http://localhost:11434"
@@ -116,7 +116,7 @@ Add these to your `config.json` for PM-specific tasks:
 {
   "models": [
     {
-      "title": "Phi-3 Mini (Local)",
+      "title": "Phi-4 Mini (Local)",
       "provider": "ollama",
       "model": "phi4-mini:latest",
       "apiBase": "http://localhost:11434",
@@ -154,7 +154,7 @@ Cline is **already pre-configured** with PM-optimized workspace settings! Here's
 
 #### 1. Start Cline
 1. **Press Ctrl+Shift+P** → Type "Cline: Start Cline"
-2. **Select your model:** Should show "Phi-3 Mini (Local)"
+2. **Select your model:** Should show "Phi-4 Mini (Local)"
 3. **Start chatting:** Ask Cline to help with PM tasks
 
 #### 2. PM-Optimized Prompts for Cline

@@ -48,9 +48,9 @@ cd aipm-laptop-llm-kit
 - ✅ **Configure everything** to work together seamlessly
 - ✅ **Verify the installation** with comprehensive health checks
 
-## 🎉 **NEW in v1.05: Early Service Launch + Pre-Configured Connections!**
+## 🎉 **NEW in v1.05: Early Service Launch + Pre-Configured Connections + phi4-mini!**
 
-**No more manual credential setup!** All tools now come with pre-configured connections to your local Ollama server:
+**Major updates for better VS Code compatibility!** All tools now come with pre-configured connections to your local Ollama server + upgraded to phi4-mini:latest model:
 
 ```bash
 # One command configures everything
@@ -58,10 +58,11 @@ cd aipm-laptop-llm-kit
 ```
 
 **What you get:**
+- ✅ **phi4-mini:latest**: Upgraded model for better VS Code integration and performance
 - ✅ **n8n**: "Local Ollama (Pre-configured)" credential ready to use
 - ✅ **AnythingLLM**: "Product Management Hub" workspace pre-loaded
 - ✅ **LangFlow**: Global Variables `{OLLAMA_BASE_URL}`, `{OLLAMA_MODEL}` available
-- ✅ **Continue.dev**: Already configured for Ollama
+- ✅ **Continue.dev**: Already configured for Ollama with phi4-mini
 - ✅ **Cline**: VS Code workspace settings with PM-optimized prompts
 
 **Perfect for low-tech Product Managers** - just open any tool and start working with AI immediately!
@@ -421,6 +422,22 @@ ollama serve
 # Or re-run Ollama installer with dry-run first to test
 ./scripts/install-ollama.sh --dry-run
 ./scripts/install-ollama.sh
+
+# Update to latest model (phi4-mini:latest)
+ollama pull phi4-mini:latest
+```
+
+**Upgrading from phi3:mini to phi4-mini:latest?**
+
+```bash
+# Pull the new model
+ollama pull phi4-mini:latest
+
+# Optional: Remove old model to save space
+ollama rm phi3:mini
+
+# Verify new model is installed
+ollama list
 ```
 
 **VS Code extensions not working?**

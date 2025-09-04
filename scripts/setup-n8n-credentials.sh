@@ -162,7 +162,7 @@ main() {
     log "🎯 Product Managers can now:"
     log "   1. Open n8n at http://localhost:5678"
     log "   2. Create workflows using 'Local Ollama (Pre-configured)' credential"
-    log "   3. Use phi3:mini model for PM tasks"
+    log "   3. Use phi4-mini:latest model for PM tasks"
     log ""
     log "📚 See docs/connecting-tools.md for detailed usage instructions"
 }

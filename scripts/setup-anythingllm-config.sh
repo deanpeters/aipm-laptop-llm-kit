@@ -86,7 +86,7 @@ INSERT OR REPLACE INTO system_settings (label, value, createdAt, updatedAt) VALU
 ('llm_provider', 'custom-openai', datetime('now'), datetime('now')),
 ('open_ai_base_path', 'http://ollama:11434/v1', datetime('now'), datetime('now')), 
 ('open_ai_api_key', 'local-ollama-key', datetime('now'), datetime('now')),
-('open_ai_model_pref', 'phi3:mini', datetime('now'), datetime('now')),
+('open_ai_model_pref', 'phi4-mini:latest', datetime('now'), datetime('now')),
 ('open_ai_temp', '0.7', datetime('now'), datetime('now')),
 ('open_ai_max_tokens', '4096', datetime('now'), datetime('now'));
 
@@ -109,7 +109,7 @@ EOF
     
     success "Configured Ollama as LLM provider"
     log "  Base URL: http://ollama:11434/v1"
-    log "  Model: phi3:mini"
+    log "  Model: phi4-mini:latest"
     log "  Embeddings: nomic-embed-text"
 }
 
@@ -172,7 +172,7 @@ main() {
     log "   1. Open AnythingLLM at ${ANYTHINGLLM_URL}"
     log "   2. Use the 'Product Management Hub' workspace"
     log "   3. Upload PM documents (PRDs, user stories, market research)"
-    log "   4. Chat with documents using Ollama phi3:mini model"
+    log "   4. Chat with documents using Ollama phi4-mini:latest model"
     log ""
     log "📚 Configuration automatically uses local Ollama server"
     log "⚡ No manual LLM setup required - ready to use immediately!"

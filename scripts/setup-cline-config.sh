@@ -61,7 +61,7 @@ setup_workspace_settings() {
     
     if [[ -f "$VSCODE_SETTINGS" ]]; then
         success "VS Code workspace settings already configured"
-        log "  Cline pre-configured for Ollama (phi3:mini)"
+        log "  Cline pre-configured for Ollama (phi4-mini:latest)"
         log "  PM-optimized system message included"
     else
         error "VS Code settings not found - should be created by installer"
@@ -92,7 +92,7 @@ main() {
     log "   1. Open this project in VS Code: code ."
     log "   2. Install Cline if not already: Ctrl+Shift+P → Extensions: Install Extensions → Search 'Cline'"
     log "   3. Press Ctrl+Shift+P → 'Cline: Start Cline'"
-    log "   4. Cline will automatically use phi3:mini model via Ollama"
+    log "   4. Cline will automatically use phi4-mini:latest model via Ollama"
     log ""
     log "📚 Cline is pre-configured with PM-focused system prompts"
     log "⚡ No manual model setup required - ready for PM tasks immediately!"

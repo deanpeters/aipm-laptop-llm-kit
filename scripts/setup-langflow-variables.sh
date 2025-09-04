@@ -75,7 +75,7 @@ create_global_variables() {
     local variables=(
         "OLLAMA_BASE_URL:http://ollama:11434/v1:Base URL for local Ollama server"
         "OLLAMA_API_KEY:local-ollama-key:API key for local Ollama server"
-        "OLLAMA_MODEL:phi3:mini:Default Ollama model for PM tasks"
+        "OLLAMA_MODEL:phi4-mini:latest:Default Ollama model for PM tasks"
         "PM_SYSTEM_PROMPT:You are a Product Manager AI assistant specialized in writing user stories, creating PRDs, analyzing market trends, and facilitating agile workflows.:System prompt for PM tasks"
         "USER_STORY_TEMPLATE:As a [user], I want [goal] so that [benefit]. Acceptance Criteria: [testable conditions].:Template for user stories"
     )

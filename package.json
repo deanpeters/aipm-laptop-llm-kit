@@ -1,0 +1,31 @@
+{
+  "name": "aipm_laptop_llm_kit",
+  "version": "1.0.0",
+  "description": "[![CI](https://github.com/deanpeters/aipm-laptop-llm-kit/workflows/CI/badge.svg)](https://github.com/deanpeters/aipm-laptop-llm-kit/actions) [![License: MIT](https://img.shields.io/badge/License-MIT-yellow.svg)](https://opensource.org/licenses/MIT) [![PRs Welcome](https://img.shields.io/badge/PRs-welcome-brightgreen.svg)](CONTRIBUTING.md)",
+  "main": "index.js",
+  "directories": {
+    "doc": "docs",
+    "example": "examples"
+  },
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/deanpeters/aipm-laptop-llm-kit.git"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC",
+  "type": "commonjs",
+  "bugs": {
+    "url": "https://github.com/deanpeters/aipm-laptop-llm-kit/issues"
+  },
+  "homepage": "https://github.com/deanpeters/aipm-laptop-llm-kit#readme",
+  "devDependencies": {
+    "@types/webpack": "^5.28.5",
+    "ts-loader": "^9.5.4",
+    "typescript": "^5.9.2",
+    "webpack": "^5.101.3"
+  }
+}

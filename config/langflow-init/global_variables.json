@@ -18,7 +18,7 @@
     },
     {
       "name": "OLLAMA_MODEL",
-      "value": "phi3:mini",
+      "value": "phi4-mini:latest",
       "type": "str", 
       "description": "Default Ollama model for PM tasks",
       "apply_to_all": true

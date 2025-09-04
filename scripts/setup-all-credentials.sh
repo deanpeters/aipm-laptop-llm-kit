@@ -153,7 +153,7 @@ verify_continue() {
     
     local continue_config="$PROJECT_ROOT/config/continue.json"
     if [[ -f "$continue_config" ]]; then
-        if grep -q "ollama" "$continue_config" && grep -q "phi3:mini" "$continue_config"; then
+        if grep -q "ollama" "$continue_config" && grep -q "phi4-mini:latest" "$continue_config"; then
             success "Continue.dev already configured for Ollama"
             log "  ✨ Ready to use in VS Code (Ctrl+I)"
         else
@@ -174,7 +174,7 @@ create_summary() {
     echo "   • n8n: 'Local Ollama (Pre-configured)' credential"
     echo "   • AnythingLLM: 'Product Management Hub' workspace" 
     echo "   • LangFlow: {OLLAMA_BASE_URL}, {OLLAMA_MODEL} variables"
-    echo "   • Continue.dev: Ollama provider (phi3:mini model)"
+    echo "   • Continue.dev: Ollama provider (phi4-mini:latest model)"
     echo "   • Cline: VS Code workspace settings (PM-optimized prompts)"
     echo ""
     
@@ -252,7 +252,7 @@ case "${1:-}" in
         echo "Options:"
         echo "  --help, -h    Show this help message"
         echo ""
-        echo "All connections point to local Ollama server (phi3:mini model)"
+        echo "All connections point to local Ollama server (phi4-mini:latest model)"
         echo "This eliminates manual credential setup for Product Managers."
         exit 0
         ;;

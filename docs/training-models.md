@@ -11,7 +11,7 @@ This guide walks Product Managers through the process of customizing local langu
 Before starting, make sure you have:
 - ✅ **Ollama installed and running** (installed by the main installer)
 - ✅ **Training data prepared** (see `docs/creating-training-data.md`)
-- ✅ **Base model downloaded** (Phi-3 Mini recommended: `phi3:mini`)
+- ✅ **Base model downloaded** (Phi-3 Mini recommended: `phi4-mini:latest`)
 - ✅ **At least 8GB RAM** (16GB recommended for better performance)
 - ✅ **10GB free disk space** for model storage
 
@@ -19,15 +19,15 @@ Before starting, make sure you have:
 
 ### Step 1: Verify Ollama Setup
 1. **Check Ollama is running:** `ollama serve`
-2. **Verify base model:** `ollama list` (should show `phi3:mini`)
-3. **Test base model:** `ollama run phi3:mini "Write a user story"`
+2. **Verify base model:** `ollama list` (should show `phi4-mini:latest`)
+3. **Test base model:** `ollama run phi4-mini:latest "Write a user story"`
 
 ### Step 2: Create a Modelfile for PM Tasks
 1. **Create Modelfile:** `nano PM-Assistant-Modelfile`
 2. **Add configuration:**
 
 ~~~dockerfile
-FROM phi3:mini
+FROM phi4-mini:latest
 
 # Set parameters for PM tasks
 PARAMETER temperature 0.7
@@ -60,7 +60,7 @@ TEMPLATE """{{ if .System }}<|system|>
 
 ### Step 4: Test Your PM Assistant
 1. **Test the model:** `ollama run pm-assistant "Create a user story for user authentication"`
-2. **Compare with base:** `ollama run phi3:mini "Create a user story for user authentication"`
+2. **Compare with base:** `ollama run phi4-mini:latest "Create a user story for user authentication"`
 3. **Notice the difference** in PM-specific formatting and terminology
 
 ## ⚙️ Advanced Configuration

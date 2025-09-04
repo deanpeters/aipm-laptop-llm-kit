@@ -176,7 +176,7 @@ Environment variables for different purposes:
 ~~~bash
 # General purpose
 LLM_BASE_URL=http://localhost:1234/v1
-LLM_MODEL_NAME=phi3-mini
+LLM_MODEL_NAME=phi4-mini
 
 # PM specialized
 PM_SPECIALIST_URL=http://localhost:1234/v1

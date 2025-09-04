@@ -54,7 +54,7 @@ services:
       # Ollama Configuration  
       - OLLAMA_BASE_URL=${OLLAMA_BASE_URL:-http://localhost:11434/v1}
       - OLLAMA_API_KEY=${OLLAMA_API_KEY:-local-ollama-key}
-      - OLLAMA_MODEL_NAME=${OLLAMA_MODEL_NAME:-phi3:mini}
+      - OLLAMA_MODEL_NAME=${OLLAMA_MODEL_NAME:-phi4-mini:latest}
       - OLLAMA_DOCKER_URL=${OLLAMA_DOCKER_URL:-http://host.docker.internal:11434/v1}
       # Provider Selection
       - DEFAULT_LLM_PROVIDER=${DEFAULT_LLM_PROVIDER:-ollama}
@@ -96,7 +96,7 @@ services:
       # Ollama Configuration
       - OLLAMA_BASE_URL=${OLLAMA_BASE_URL:-http://localhost:11434/v1}
       - OLLAMA_API_KEY=${OLLAMA_API_KEY:-local-ollama-key}
-      - OLLAMA_MODEL_NAME=${OLLAMA_MODEL_NAME:-phi3:mini}
+      - OLLAMA_MODEL_NAME=${OLLAMA_MODEL_NAME:-phi4-mini:latest}
       - OLLAMA_DOCKER_URL=${OLLAMA_DOCKER_URL:-http://host.docker.internal:11434/v1}
       # Provider Selection
       - DEFAULT_LLM_PROVIDER=${DEFAULT_LLM_PROVIDER:-ollama}

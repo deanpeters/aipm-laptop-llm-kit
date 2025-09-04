@@ -87,7 +87,7 @@ cd aipm-laptop-llm-kit
 ### 1. **Ollama** (2 minutes)
 
 1. **Start:** Ollama should start automatically, or run: `ollama serve`
-2. **Download Model:** Run `ollama pull phi3:mini` (should happen automatically during install)
+2. **Download Model:** Run `ollama pull phi4-mini:latest` (should happen automatically during install)
 3. **Verify:** Run `ollama list` to see installed models
 4. **Test:** Run `curl http://localhost:11434/api/tags` to check the API
 

@@ -100,7 +100,7 @@ setup_provider() {
                 info "Using Ollama provider for CLI LangFlow (${OLLAMA_BASE_URL})"
             fi
             export OLLAMA_API_KEY="${OLLAMA_API_KEY:-local-ollama-key}"
-            export OLLAMA_MODEL_NAME="${OLLAMA_MODEL_NAME:-phi3:mini}"
+            export OLLAMA_MODEL_NAME="${OLLAMA_MODEL_NAME:-phi4-mini:latest}"
             ;;
         *)
             error "Unknown provider: $provider. Use 'lmstudio' or 'ollama'"

@@ -49,14 +49,14 @@ Before connecting tools, ensure:
    # Primary Local LLM Configuration (Ollama)
    OLLAMA_BASE_URL=http://localhost:11434/v1
    OLLAMA_API_KEY=local-ollama-key
-   OLLAMA_MODEL_NAME=phi3:mini
+   OLLAMA_MODEL_NAME=phi4-mini:latest
    OLLAMA_DOCKER_URL=http://ollama:11434/v1
    ~~~
 3. **Load environment:** `source .env` (or restart your terminal)
 
 ### Quick Ollama Setup
 1. **Start Ollama:** `ollama serve` (or it may auto-start)
-2. **Download model:** `ollama pull phi3:mini` (done automatically during install)
+2. **Download model:** `ollama pull phi4-mini:latest` (done automatically during install)
 3. **Verify service:** Should be running on port 11434
 4. **Test connection:** `curl http://localhost:11434/api/tags`
 
@@ -65,7 +65,7 @@ Before connecting tools, ensure:
 {
   "models": [
     {
-      "name": "phi3:mini",
+      "name": "phi4-mini:latest",
       "size": "2300000000",
       "digest": "...",
       "modified_at": "2024-01-01T00:00:00Z"
@@ -91,7 +91,7 @@ The Continue.dev extension is **already pre-configured** to work with your local
     {
       "title": "Phi-3 Mini (Local)",
       "provider": "ollama",
-      "model": "phi3:mini",
+      "model": "phi4-mini:latest",
       "apiBase": "http://localhost:11434"
     }
   ],
@@ -118,7 +118,7 @@ Add these to your `config.json` for PM-specific tasks:
     {
       "title": "Phi-3 Mini (Local)",
       "provider": "ollama",
-      "model": "phi3:mini",
+      "model": "phi4-mini:latest",
       "apiBase": "http://localhost:11434",
       "requestOptions": {
         "temperature": 0.7,
@@ -183,14 +183,14 @@ AnythingLLM is **already pre-configured** with a PM-optimized workspace! Here's 
    - Provider: Generic OpenAI
    - Base URL: `http://ollama:11434/v1`
    - API Key: `local-api-key`
-   - Model: `phi3:mini`
+   - Model: `phi4-mini:latest`
 
 ### 3. If Connection Fails
 Update settings manually:
 1. **LLM Provider:** Generic OpenAI
 2. **Base URL:** `http://ollama:11434/v1`
 3. **API Key:** `not-needed` (or any text)
-4. **Chat Model:** `phi3:mini`
+4. **Chat Model:** `phi4-mini:latest`
 5. **Click "Update"** and test with a message
 
 ### 4. Upload PM Documents
@@ -254,7 +254,7 @@ Let's test the pre-configured credentials with a simple user story generator:
 3. **Add LLM Node:** Search "OpenAI" → Add "OpenAI Chat Model"
 4. **Configure LLM Node:**
    - **Credential:** Select "Local Ollama (Pre-configured)"
-   - **Model:** `phi3:mini`
+   - **Model:** `phi4-mini:latest`
    - **Messages:** User Message
    - **User Message:** `Create a user story for user login functionality`
 5. **Test:** Click "Test workflow" → Should get PM-formatted response!
@@ -289,7 +289,7 @@ Let's test the pre-configured credentials with a simple user story generator:
    - **Credential:** Select "Local Ollama"
    - **Resource:** "Text"
    - **Operation:** "Complete"  
-   - **Model:** `={{$env.OLLAMA_MODEL_NAME}}` (e.g., `phi3:mini`)
+   - **Model:** `={{$env.OLLAMA_MODEL_NAME}}` (e.g., `phi4-mini:latest`)
    - **Prompt:** `Write a brief product update for a team meeting`
 4. **Execute workflow** → Should get AI-generated response
 
@@ -388,7 +388,7 @@ docker compose --profile optional up -d langflow
 🎉 **Global Variables are already set up!** Use these pre-configured variables in any component:
 
 - `{OLLAMA_BASE_URL}` → `http://ollama:11434/v1`
-- `{OLLAMA_MODEL}` → `phi3:mini`  
+- `{OLLAMA_MODEL}` → `phi4-mini:latest`  
 - `{PM_SYSTEM_PROMPT}` → PM-optimized system message
 - `{USER_STORY_TEMPLATE}` → Template for consistent user story formatting
 
@@ -434,7 +434,7 @@ docker compose --profile optional up -d langflow
 **Direct Configuration:**
 - **Base URL:** `http://host.docker.internal:11434/v1`
 - **API Key:** `local-ollama-key`
-- **Model:** `phi3:mini` (or any Ollama model)
+- **Model:** `phi4-mini:latest` (or any Ollama model)
 - **Temperature:** 0.7
 
 #### Option C: Multiple Provider Setup
@@ -449,7 +449,7 @@ LangFlow can access environment variables from your `.env` file:
    ~~~bash
    LANGFLOW_LLM_URL=http://ollama:11434/v1
    LANGFLOW_LLM_KEY=sk-local-key
-   LANGFLOW_LLM_MODEL=phi3:mini
+   LANGFLOW_LLM_MODEL=phi4-mini:latest
    ~~~
 2. **Reference in components** using `{VARIABLE_NAME}` syntax
 
@@ -528,7 +528,7 @@ curl -fsSL https://ollama.ai/install.sh | sh
 
 ### 2. Pull Phi-3 Mini
 ~~~bash
-ollama pull phi3:mini
+ollama pull phi4-mini:latest
 ollama serve  # Start Ollama server
 ~~~
 
@@ -540,13 +540,13 @@ docker compose --profile optional up -d ollama-webui
 ### 4. Access Web UI
 1. **Open browser:** http://localhost:8080
 2. **Should auto-detect** Ollama server
-3. **Select phi3:mini** model
+3. **Select phi4-mini:latest** model
 4. **Start chatting**
 
 ### 5. Configure Other Tools for Ollama
 If using Ollama instead of Ollama, update URLs:
 - **Base URL:** `http://host.docker.internal:11434/api`
-- **Model:** `phi3:mini`
+- **Model:** `phi4-mini:latest`
 
 ## ⚠️ Troubleshooting Connections
 
@@ -622,7 +622,7 @@ If using Ollama instead of Ollama, update URLs:
 
 **Model name issues:**
 - Ollama: Use exact model ID from `curl http://localhost:11434/v1/models`
-- Ollama: Use format like `phi3:mini`, `llama3.2:3b`, `mistral:7b`
+- Ollama: Use format like `phi4-mini:latest`, `llama3.2:3b`, `mistral:7b`
 
 #### LangFlow Issues
 1. **Clear browser cache** and refresh page
@@ -639,7 +639,7 @@ Use environment variables to manage different models for different PM tasks:
 # General Purpose Model (Ollama default)
 LLM_BASE_URL=http://localhost:11434/v1
 LLM_API_KEY=local-ollama-key
-LLM_MODEL_NAME=phi3:mini
+LLM_MODEL_NAME=phi4-mini:latest
 
 # PM-Specialized Fine-tuned Model (same Ollama, different model)
 PM_SPECIALIST_URL=http://localhost:11434/v1
@@ -760,7 +760,7 @@ return config
 # Pattern: {PURPOSE}_{ATTRIBUTE}
 GENERAL_LLM_URL=http://localhost:11434/v1
 GENERAL_LLM_KEY=local-general-key
-GENERAL_LLM_MODEL=phi3-mini
+GENERAL_LLM_MODEL=phi4-mini
 
 PM_SPECIALIST_URL=http://localhost:11434/v1  
 PM_SPECIALIST_KEY=local-pm-key

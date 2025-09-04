@@ -47,7 +47,7 @@ switch_to_ollama() {
     
     echo "✅ Switched to Ollama"
     echo "   URL: http://localhost:11434/v1"
-    echo "   Model: phi3:mini"
+    echo "   Model: phi4-mini:latest"
 }
 
 restart_containers() {

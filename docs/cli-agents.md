@@ -241,7 +241,7 @@ Both scripts automatically configure environment variables for your chosen provi
 - **Docker n8n**: `OLLAMA_BASE_URL=http://host.docker.internal:11434/v1`
 - **CLI n8n**: `OLLAMA_BASE_URL=http://localhost:11434/v1`
 - `OLLAMA_API_KEY=local-ollama-key`
-- `OLLAMA_MODEL_NAME=phi3:mini`
+- `OLLAMA_MODEL_NAME=phi4-mini:latest`
 
 > **🔧 Smart URL Detection:** The scripts automatically detect whether you're using Docker n8n or CLI n8n and set the correct URLs. Docker containers need `host.docker.internal` to reach your Mac, while CLI n8n uses `localhost`.
 

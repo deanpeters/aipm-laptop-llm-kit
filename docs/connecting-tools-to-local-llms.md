@@ -20,7 +20,7 @@ LLM_DOCKER_URL=http://host.docker.internal:1234/v1
 # Ollama (alternative)
 OLLAMA_BASE_URL=http://localhost:11434/v1
 OLLAMA_API_KEY=local-ollama-key
-OLLAMA_MODEL_NAME=phi3:mini
+OLLAMA_MODEL_NAME=phi4-mini:latest
 OLLAMA_DOCKER_URL=http://host.docker.internal:11434/v1
 ```
 

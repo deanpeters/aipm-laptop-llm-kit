@@ -246,7 +246,7 @@ cd aipm-laptop-llm-kit
 
 ### 📚 Documentation & Guidelines
 - **Create contributor guidelines** - Structured guidelines and guardrails for project contributors
-- **Explain model choice rationale** - Why phi3:mini is our default training model, considerations for alternatives
+- **Explain model choice rationale** - Why phi4-mini:latest is our default training model, considerations for alternatives
 - **Hardware/security constraints guide** - Document system requirements, security considerations, and deployment constraints
 - **Docker usage rationale** - Explain why Docker is used for specific tools and the benefits it provides
 

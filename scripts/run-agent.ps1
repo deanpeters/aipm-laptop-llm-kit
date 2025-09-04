@@ -121,7 +121,7 @@ function Set-Provider {
                 Write-Info "Using Ollama provider for CLI n8n ($($env:OLLAMA_BASE_URL))"
             }
             $env:OLLAMA_API_KEY = if ($env:OLLAMA_API_KEY) { $env:OLLAMA_API_KEY } else { "local-ollama-key" }
-            $env:OLLAMA_MODEL_NAME = if ($env:OLLAMA_MODEL_NAME) { $env:OLLAMA_MODEL_NAME } else { "phi3:mini" }
+            $env:OLLAMA_MODEL_NAME = if ($env:OLLAMA_MODEL_NAME) { $env:OLLAMA_MODEL_NAME } else { "phi4-mini:latest" }
         }
         default {
             Write-Error-Custom "Unknown provider: $ProviderName. Use 'lmstudio' or 'ollama'"

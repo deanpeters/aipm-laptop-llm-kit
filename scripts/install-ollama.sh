@@ -14,7 +14,7 @@ BLUE='\033[0;34m'
 NC='\033[0m'
 
 # Configuration
-DEFAULT_MODEL="phi3:mini"
+DEFAULT_MODEL="phi4-mini:latest"
 OLLAMA_PORT="11434"
 DRY_RUN=false
 

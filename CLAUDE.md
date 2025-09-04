@@ -205,8 +205,30 @@ cd aipm-laptop-llm-kit
 - Safe re-installation process for updates
 - Complete offline-first architecture documentation
 
-## 🚀 FUTURE ENHANCEMENTS (Optional)
+## 📋 FUTURE TO-DO LIST (DO NOT EXECUTE - FOR REFERENCE)
+
+### 🧪 Testing & Quality Assurance
+- **Test Windows installer** - Still untested, welcome community contributions for validation
+- **Cross-platform compatibility** - Validate across different Windows versions and configurations
+
+### 📚 Documentation & Guidelines
+- **Create contributor guidelines** - Structured guidelines and guardrails for project contributors
+- **Explain model choice rationale** - Why phi-3-mini-4k-instruct is our default training model, considerations for alternatives
+- **Hardware/security constraints guide** - Document system requirements, security considerations, and deployment constraints
+- **Docker usage rationale** - Explain why Docker is used for specific tools and the benefits it provides
+
+### 🎯 Product Management Focus
+- **Expand PM workflow examples** - Move beyond Scrum PO level to strategic PM, portfolio management, and executive-level use cases
+- **Enterprise PM scenarios** - Add workflows for stakeholder management, roadmapping, competitive analysis
+- **Strategic planning examples** - OKRs, market research, product strategy development
+
+### 🎓 Learning & Community
+- **Run Productside webinar workshop** - Conduct live workshop, then add recorded video to project
+- **Create cookbook/recipes section** - How-to guides for building interesting projects, agents, and workflows
+- **Community examples** - Showcase real-world implementations from users
+
+### 🚀 FUTURE ENHANCEMENTS (Optional Development)
 1. **Additional model providers** - Anthropic Claude, Google Gemini local options
 2. **More PM workflows** - Sprint planning, roadmap generation templates  
 3. **Mobile companion** - Simple mobile app for triggering scheduled agents
-4. **Video tutorials** - Screen recordings for specific PM use cases
+4. **Advanced automation** - Multi-step agent workflows and decision trees

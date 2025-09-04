@@ -1,10 +1,38 @@
 # Connecting All Tools to Your Local LLM
 
-> **Complete integration guide: Connect VS Code, n8n, LangFlow, and other tools to your local Phi-3 Mini model**
+> **Complete integration guide with pre-configured connections: VS Code, n8n, LangFlow, and other tools to your local Phi-3 Mini model**
 
 ## 🎯 Overview
 
-This guide shows you exactly how to connect every tool in the AIPM Laptop LLM Kit to your local Phi-3 Mini model running in Ollama. No need to hunt through multiple documentation sites - everything you need is right here.
+This guide shows you exactly how to connect every tool in the AIPM Laptop LLM Kit to your local Phi-3 Mini model running in Ollama. 
+
+**🎉 New in v1.05:** Most connections are now **pre-configured automatically** and services launch early during installation! This guide shows you how to use the pre-configured connections and how to customize them if needed.
+
+## 🚀 Pre-Configured Connections (Recommended for PMs)
+
+The AIPM Laptop LLM Kit now comes with **pre-built connections** to eliminate setup complexity for Product Managers:
+
+### Automatic Setup
+Run this single command to configure all tool connections:
+```bash
+./scripts/setup-all-credentials.sh
+```
+
+This script automatically configures:
+- ✅ **n8n**: "Local Ollama (Pre-configured)" credential
+- ✅ **AnythingLLM**: "Product Management Hub" workspace  
+- ✅ **LangFlow**: Global variables `{OLLAMA_BASE_URL}`, `{OLLAMA_MODEL}`
+- ✅ **Continue.dev**: Ollama provider configuration
+- ✅ **Cline**: VS Code workspace settings with PM prompts
+
+### What This Means for You
+- **No manual credential setup needed** - everything works immediately
+- **Learning by example** - see working configurations to understand how connections work
+- **PM-optimized settings** - system prompts and templates focused on Product Management tasks
+- **One-click workflows** - start using AI tools for PM tasks right away
+
+### If Pre-Configuration Doesn't Work
+If you don't see pre-configured options in your tools, or want to customize connections manually, continue reading the detailed setup sections below.
 
 ## 🔧 Prerequisites
 
@@ -48,9 +76,9 @@ Before connecting tools, ensure:
 
 ## 🔌 VS Code Integration
 
-### Continue.dev Setup (AI Coding Assistant)
+### Continue.dev Setup (AI Coding Assistant) ✅ PRE-CONFIGURED
 
-The Continue.dev extension is pre-configured to work with your local model, but here's how to verify and customize:
+The Continue.dev extension is **already pre-configured** to work with your local Ollama model! Here's how to verify and customize:
 
 #### 1. Verify Configuration
 1. **Open VS Code** in your project directory: `code .`
@@ -120,9 +148,9 @@ Add these to your `config.json` for PM-specific tasks:
 2. **Right-click** → "Continue" → "user-story"
 3. **AI generates** a properly formatted user story
 
-### Cline Setup (Advanced AI Workflows)
+### Cline Setup (Advanced AI Workflows) ✅ PRE-CONFIGURED
 
-Cline connects automatically, but here's how to optimize:
+Cline is **already pre-configured** with PM-optimized workspace settings! Here's how to use it:
 
 #### 1. Start Cline
 1. **Press Ctrl+Shift+P** → Type "Cline: Start Cline"
@@ -140,9 +168,9 @@ Cline connects automatically, but here's how to optimize:
 "Create user stories with acceptance criteria for an e-commerce checkout flow"
 ~~~
 
-## 🚀 AnythingLLM Integration
+## 🚀 AnythingLLM Integration ✅ PRE-CONFIGURED
 
-AnythingLLM is pre-configured to use your local Ollama server, but here's how to verify and customize:
+AnythingLLM is **already pre-configured** with a PM-optimized workspace! Here's how to use it:
 
 ### 1. Access AnythingLLM
 1. **Open browser:** http://localhost:3001
@@ -179,57 +207,57 @@ Update settings manually:
 "Create a feature comparison table from these competitive analysis documents"
 ~~~
 
-## 🔄 n8n Integration (Workflow Automation)
+## 🔄 n8n Integration (Workflow Automation) ✅ PRE-CONFIGURED
 
-Connect n8n to your local LLM for automated PM workflows:
+Connect n8n to your local LLM for automated PM workflows - **credentials are already set up for you!**
 
 ### 1. Access n8n
 1. **Open browser:** http://localhost:5678
 2. **Create account** (local instance)
 3. **Skip onboarding** or complete setup
 
-### 2. Create Local LLM Credentials
+### 2. Use Pre-Configured Credentials (Recommended for PMs)
 
-> **⚠️ IMPORTANT:** There is no "Ollama" or "Ollama" credential type in n8n. You MUST use the **"OpenAI API"** credential type instead. This works with any OpenAI-compatible API, including Ollama and Ollama.
+🎉 **Good news!** Your n8n instance comes with pre-configured Ollama credentials to make setup easier.
 
-#### Option A: Ollama Connection
-**Using Environment Variables:**
+#### Option A: Use Pre-Configured Credential (Easiest)
+1. **Open n8n:** http://localhost:5678
+2. **Create a workflow** → Add any LLM node (like "OpenAI")
+3. **Select credential:** Look for **"Local Ollama (Pre-configured)"**
+4. **That's it!** No configuration needed - it's ready to use
+
+If you don't see the pre-configured credential, run this setup command:
+```bash
+./scripts/setup-n8n-credentials.sh
+```
+
+#### Option B: Manual Credential Creation
+
+> **⚠️ IMPORTANT:** There is no "Ollama" credential type in n8n. You MUST use the **"OpenAI API"** credential type instead. This works with any OpenAI-compatible API, including Ollama.
+
+**Steps:**
 1. **Settings** → **Credentials** → **Add Credential**
 2. **Search for "OpenAI"** → Select **"OpenAI API"** (NOT Ollama)
-3. **Configure with environment variables:**
-   - **Name:** "Local Ollama"
-   - **API Key:** `={{$env.LLM_API_KEY}}`
-   - **Base URL:** `={{$env.LLM_DOCKER_URL}}`
+3. **Configure:**
+   - **Name:** "My Local Ollama"
+   - **API Key:** `local-ollama-key`
+   - **Base URL:** `http://ollama:11434/v1`
 4. **Save** the credential
 
-**Direct Configuration:**
-- **Name:** "Local Ollama"
-- **API Key:** `local-ollama-key`
-- **Base URL:** `http://ollama:11434/v1`
+### 3. Create Your First PM Workflow
 
-#### Option B: Ollama Connection
-**Using Environment Variables:**
-1. **Settings** → **Credentials** → **Add Credential**
-2. **Search for "OpenAI"** → Select **"OpenAI API"** (NOT Ollama)
-3. **Configure with environment variables:**
-   - **Name:** "Local Ollama"
-   - **API Key:** `={{$env.OLLAMA_API_KEY}}`
-   - **Base URL:** `={{$env.OLLAMA_DOCKER_URL}}`
-4. **Save** the credential
+Let's test the pre-configured credentials with a simple user story generator:
 
-**Direct Configuration:**
-- **Name:** "Local Ollama"
-- **API Key:** `local-ollama-key`
-- **Base URL:** `http://host.docker.internal:11434/v1`
-
-#### Option C: Multiple Local Providers
-Set up both for maximum flexibility:
-1. Create **both** Ollama and Ollama credentials (see above)
-2. Use whichever local model server you have running
-3. Switch between them as needed in different workflows
-
-#### Creating Multiple Model Credentials
-Set up different credentials for specialized models:
+#### Quick Test Workflow
+1. **New Workflow:** Click "+" → "Blank workflow"
+2. **Add Trigger:** Search "Manual" → Add "Manual Trigger"
+3. **Add LLM Node:** Search "OpenAI" → Add "OpenAI Chat Model"
+4. **Configure LLM Node:**
+   - **Credential:** Select "Local Ollama (Pre-configured)"
+   - **Model:** `phi3:mini`
+   - **Messages:** User Message
+   - **User Message:** `Create a user story for user login functionality`
+5. **Test:** Click "Test workflow" → Should get PM-formatted response!
 
 **PM Specialist Model:**
 - **Name:** "PM Specialist"
@@ -340,9 +368,9 @@ return [{
 }];
 ~~~
 
-## 🌊 LangFlow Integration
+## 🌊 LangFlow Integration ✅ PRE-CONFIGURED
 
-LangFlow provides a visual interface for building LLM workflows:
+LangFlow provides a visual interface for building LLM workflows - **Global Variables are already set up for you!**
 
 ### 1. Start LangFlow
 ~~~bash
@@ -355,9 +383,27 @@ docker compose --profile optional up -d langflow
 2. **Create account** (local instance)
 3. **Skip tutorials** or explore interface
 
-### 3. Configure Local LLM Connection
+### 3. Use Pre-Configured Global Variables (Recommended)
 
-> **⚠️ NOTE:** LangFlow uses "OpenAI" components for ALL OpenAI-compatible APIs, including both Ollama and Ollama.
+🎉 **Global Variables are already set up!** Use these pre-configured variables in any component:
+
+- `{OLLAMA_BASE_URL}` → `http://ollama:11434/v1`
+- `{OLLAMA_MODEL}` → `phi3:mini`  
+- `{PM_SYSTEM_PROMPT}` → PM-optimized system message
+- `{USER_STORY_TEMPLATE}` → Template for consistent user story formatting
+
+#### How to Use Pre-Configured Variables:
+1. **Create new flow** → Start with blank canvas
+2. **Add "OpenAI" component** from left sidebar  
+3. **Configure OpenAI component using variables:**
+   - **Base URL:** `{OLLAMA_BASE_URL}` 
+   - **Model:** `{OLLAMA_MODEL}`
+   - **System Message:** `{PM_SYSTEM_PROMPT}`
+4. **Variables are automatically substituted** at runtime
+
+#### Manual Configuration (Alternative)
+
+> **⚠️ NOTE:** LangFlow uses "OpenAI" components for ALL OpenAI-compatible APIs, including Ollama.
 
 #### Option A: Ollama Configuration
 **Using Environment Variables:**

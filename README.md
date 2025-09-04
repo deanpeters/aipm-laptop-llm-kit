@@ -20,7 +20,7 @@ Transform your laptop into a powerful AI workstation with local models, document
 
 **🎯 New to AI fine-tuning?** Jump to [Creating Training Data](docs/creating-training-data.md) and [Training Models](docs/training-models.md)!
 
-**🔌 Need help connecting tools?** See [Connecting Tools](docs/connecting-tools.md) for VS Code, n8n, LangFlow integration with environment variable support!
+**🔌 Tools pre-configured!** v1.05 includes automatic credential setup + early service launch - see [Connecting Tools](docs/connecting-tools.md) for details!
 
 ## 🚀 Quick Start
 
@@ -47,6 +47,24 @@ cd aipm-laptop-llm-kit
 - ✅ **Install all dependencies** (Docker, VS Code, Ollama with model)
 - ✅ **Configure everything** to work together seamlessly
 - ✅ **Verify the installation** with comprehensive health checks
+
+## 🎉 **NEW in v1.05: Early Service Launch + Pre-Configured Connections!**
+
+**No more manual credential setup!** All tools now come with pre-configured connections to your local Ollama server:
+
+```bash
+# One command configures everything
+./scripts/setup-all-credentials.sh
+```
+
+**What you get:**
+- ✅ **n8n**: "Local Ollama (Pre-configured)" credential ready to use
+- ✅ **AnythingLLM**: "Product Management Hub" workspace pre-loaded
+- ✅ **LangFlow**: Global Variables `{OLLAMA_BASE_URL}`, `{OLLAMA_MODEL}` available
+- ✅ **Continue.dev**: Already configured for Ollama
+- ✅ **Cline**: VS Code workspace settings with PM-optimized prompts
+
+**Perfect for low-tech Product Managers** - just open any tool and start working with AI immediately!
 
 ## 🚀 Quick Start - Test Drive Everything
 
@@ -76,20 +94,17 @@ cd aipm-laptop-llm-kit
 ### 2. **AnythingLLM** (1 minute)
 
 1. **Open:** Go to http://localhost:3001 (wait ~60 seconds for startup)
-2. **Setup:** Create account → Create workspace → Name it "Test"
-3. **LLM Setup:** If prompted for LLM config, it should auto-detect Ollama. If not:
-   - Choose "Generic OpenAI"
-   - Base URL: `http://ollama:11434/v1`
-   - API Key: `not-needed`
-4. **Upload:** Drag & drop a PDF or text file into the workspace
-5. **Chat:** Ask "What is this document about?" in the chat box
+2. **Pre-configured workspace:** Look for "Product Management Hub" - ready to use!
+3. **Upload:** Drag & drop PM documents (PRDs, user stories, research) into the workspace
+4. **Chat:** Ask "What is this document about?" - powered by local Ollama!
+5. **Optional setup:** Run `./scripts/setup-all-credentials.sh` if workspace isn't pre-configured
 
 ### 3. **n8n Workflows** (30 seconds)
 
 1. **Open:** Go to http://localhost:5678
-2. **Explore:** Click "Templates" in left menu → Search "webhook"
-3. **Try:** Click on any template → Click "Use this workflow"
-4. **Test:** Click the "Test workflow" button to see it run
+2. **Create account:** Quick local setup (no email needed)
+3. **Pre-configured credentials:** Look for "Local Ollama (Pre-configured)" - ready to use!
+4. **Quick test:** Create workflow → Add "OpenAI Chat Model" → Select pre-configured credential → Test!
 
 ### 4. **VS Code AI Coding** (30 seconds)
 
@@ -336,6 +351,51 @@ docker compose --profile optional up -d langflow && sleep 30 && curl -f http://l
 **💡 For detailed testing procedures:** See [CLAUDE.md](CLAUDE.md) for comprehensive testing commands and development workflows.
 
 ## 🩺 Troubleshooting
+
+### Pre-Configuration Issues (v1.05)
+
+**Pre-configured credentials not appearing?**
+
+```bash
+# Run the master setup script to configure all tools
+./scripts/setup-all-credentials.sh
+
+# Or configure individual tools:
+./scripts/setup-n8n-credentials.sh          # n8n credentials
+./scripts/setup-anythingllm-config.sh       # AnythingLLM workspace  
+./scripts/setup-langflow-variables.sh       # LangFlow global variables
+./scripts/setup-cline-config.sh            # Cline VS Code settings
+```
+
+**Can't see "Local Ollama (Pre-configured)" in n8n?**
+
+```bash
+# Check if n8n is running
+curl http://localhost:5678/healthz
+
+# Verify credential was created
+./scripts/setup-n8n-credentials.sh
+```
+
+**AnythingLLM "Product Management Hub" workspace missing?**
+
+```bash
+# Check if AnythingLLM is running  
+curl http://localhost:3001/api/ping
+
+# Reconfigure workspace
+./scripts/setup-anythingllm-config.sh
+```
+
+**LangFlow Global Variables not available?**
+
+```bash
+# Check if LangFlow is running
+curl http://localhost:7860/health
+
+# Setup global variables
+./scripts/setup-langflow-variables.sh
+```
 
 ### Common Issues
 

@@ -1,0 +1,41 @@
+{
+  "name": "AIPM LangFlow Global Variables",
+  "description": "Pre-configured variables for Product Managers using local Ollama",
+  "variables": [
+    {
+      "name": "OLLAMA_BASE_URL",
+      "value": "http://ollama:11434/v1",
+      "type": "str",
+      "description": "Base URL for local Ollama server (Docker internal)",
+      "apply_to_all": true
+    },
+    {
+      "name": "OLLAMA_API_KEY", 
+      "value": "local-ollama-key",
+      "type": "str",
+      "description": "API key for local Ollama server",
+      "apply_to_all": true
+    },
+    {
+      "name": "OLLAMA_MODEL",
+      "value": "phi3:mini",
+      "type": "str", 
+      "description": "Default Ollama model for PM tasks",
+      "apply_to_all": true
+    },
+    {
+      "name": "PM_SYSTEM_PROMPT",
+      "value": "You are a Product Manager AI assistant specialized in writing user stories, creating PRDs, analyzing market trends, and facilitating agile workflows. Always provide practical, actionable responses formatted for PM workflows.",
+      "type": "str",
+      "description": "System prompt optimized for Product Management tasks",
+      "apply_to_all": false
+    },
+    {
+      "name": "USER_STORY_TEMPLATE",
+      "value": "As a [user type], I want [functionality] so that [benefit]. Acceptance Criteria: [specific testable conditions]. Definition of Done: [completion checklist].",
+      "type": "str",
+      "description": "Template for consistent user story formatting",
+      "apply_to_all": false
+    }
+  ]
+}

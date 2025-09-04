@@ -38,6 +38,8 @@ services:
     volumes:
       - "${N8N_STORAGE:-./storage/n8n}:/home/node/.n8n"
       - "./config/workflows:/home/node/.n8n/workflows:ro"
+      - "./config/n8n-init:/home/node/.n8n/init:ro"
+      - "./scripts/init-n8n-credentials.sh:/home/node/.n8n/init-credentials.sh:ro"
     environment:
       - N8N_BASIC_AUTH_ACTIVE=false
       - N8N_HOST=0.0.0.0
@@ -57,6 +59,8 @@ services:
       # Provider Selection
       - DEFAULT_LLM_PROVIDER=${DEFAULT_LLM_PROVIDER:-ollama}
       - BACKUP_LLM_PROVIDER=${BACKUP_LLM_PROVIDER:-lmstudio}
+      # Credential Initialization
+      - N8N_INIT_CREDENTIALS=true
     restart: unless-stopped
     extra_hosts:
       - "host.docker.internal:host-gateway"

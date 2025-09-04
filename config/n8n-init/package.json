@@ -1,0 +1,14 @@
+{
+  "name": "n8n-credential-init",
+  "version": "1.0.0",
+  "description": "Pre-configure n8n with Ollama credentials for Product Managers",
+  "main": "init-credentials.js",
+  "scripts": {
+    "init": "node init-credentials.js"
+  },
+  "dependencies": {
+    "sqlite3": "^5.1.6"
+  },
+  "author": "AIPM Laptop LLM Kit",
+  "license": "MIT"
+}

@@ -73,6 +73,140 @@ function Test-Command {
     return $?
 }
 
+# Early service detection and launch
+function Start-EarlyServices {
+    Write-Progress-Custom "Detecting and launching required services early..."
+    
+    # Variables to track what we launched
+    $dockerLaunched = $false
+    $lmStudioLaunched = $false
+    
+    # Check and launch Docker if available
+    if (Test-Command docker) {
+        Write-Progress-Custom "Docker detected - checking if running..."
+        $dockerRunning = $false
+        try {
+            docker info 2>$null | Out-Null
+            $dockerRunning = $true
+        }
+        catch {
+            $dockerRunning = $false
+        }
+        
+        if (-not $dockerRunning) {
+            if ($DryRun) {
+                Write-Log "[DRY RUN] Would launch Docker Desktop in background"
+            }
+            else {
+                Write-Progress-Custom "Docker not running - attempting to start Docker Desktop..."
+                $dockerPath = "${env:ProgramFiles}\Docker\Docker\Docker Desktop.exe"
+                if (Test-Path $dockerPath) {
+                    Write-Log "Starting Docker Desktop..."
+                    Start-Process $dockerPath -WindowStyle Hidden
+                    $dockerLaunched = $true
+                }
+                else {
+                    Write-Warning-Custom "Docker Desktop not found at expected location"
+                }
+            }
+        }
+        else {
+            Write-Success "Docker is already running"
+        }
+    }
+    else {
+        Write-Log "Docker not yet installed - will be installed later"
+    }
+    
+    # Check and launch LM Studio if available (future: Ollama)
+    if (Test-Command "lms") {
+        Write-Progress-Custom "LM Studio detected - checking if server is running..."
+        $lmsRunning = $false
+        try {
+            $response = Invoke-WebRequest -Uri "http://localhost:1234/v1/models" -TimeoutSec 5 -ErrorAction SilentlyContinue
+            $lmsRunning = $true
+        }
+        catch {
+            $lmsRunning = $false
+        }
+        
+        if (-not $lmsRunning) {
+            if ($DryRun) {
+                Write-Log "[DRY RUN] Would launch LM Studio server in background"
+            }
+            else {
+                Write-Progress-Custom "LM Studio server not running - starting in background..."
+                Write-Log "Starting LM Studio server..."
+                Start-Process "lms" -ArgumentList "server", "start" -WindowStyle Hidden
+                $lmStudioLaunched = $true
+            }
+        }
+        else {
+            Write-Success "LM Studio server is already running"
+        }
+    }
+    else {
+        Write-Log "LM Studio not yet installed - will be installed later"
+    }
+    
+    # Wait for launched services to initialize
+    if (($dockerLaunched -or $lmStudioLaunched) -and (-not $DryRun)) {
+        Write-Progress-Custom "Waiting for launched services to initialize..."
+        
+        if ($dockerLaunched) {
+            Write-Log "Waiting for Docker to be ready..."
+            $dockerWait = 0
+            while ($dockerWait -lt 30) {
+                try {
+                    docker info 2>$null | Out-Null
+                    break
+                }
+                catch {
+                    Start-Sleep 2
+                    $dockerWait += 2
+                    Write-Host "." -NoNewline
+                }
+            }
+            Write-Host ""
+            
+            try {
+                docker info 2>$null | Out-Null
+                Write-Success "Docker is ready"
+            }
+            catch {
+                Write-Warning-Custom "Docker may still be starting - installation will continue"
+            }
+        }
+        
+        if ($lmStudioLaunched) {
+            Write-Log "Waiting for LM Studio server to be ready..."
+            $lmsWait = 0
+            while ($lmsWait -lt 15) {
+                try {
+                    $response = Invoke-WebRequest -Uri "http://localhost:1234/v1/models" -TimeoutSec 2 -ErrorAction SilentlyContinue
+                    break
+                }
+                catch {
+                    Start-Sleep 1
+                    $lmsWait += 1
+                    Write-Host "." -NoNewline
+                }
+            }
+            Write-Host ""
+            
+            try {
+                $response = Invoke-WebRequest -Uri "http://localhost:1234/v1/models" -TimeoutSec 2 -ErrorAction SilentlyContinue
+                Write-Success "LM Studio server is ready"
+            }
+            catch {
+                Write-Warning-Custom "LM Studio server may still be starting - installation will continue"
+            }
+        }
+    }
+    
+    Write-Log "Early service launch completed"
+}
+
 # Install and update package managers
 function Install-PackageManager {
     $hasWinget = Test-Command winget
@@ -330,6 +464,9 @@ function Main {
         Write-Warning-Custom "PowerShell execution policy is Restricted. Run: Set-ExecutionPolicy -ExecutionPolicy RemoteSigned -Scope CurrentUser"
         exit 1
     }
+    
+    # Launch existing services early to avoid warnings later
+    Start-EarlyServices
     
     # Install LM Studio with automation
     Write-Progress-Custom "Installing LM Studio with automated setup..."

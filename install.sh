@@ -92,6 +92,109 @@ command_exists() {
     command -v "$1" >/dev/null 2>&1
 }
 
+# Early service detection and launch
+early_service_launch() {
+    progress "Detecting and launching required services early..."
+    
+    # Variables to track what we launched
+    local docker_launched=false
+    local ollama_launched=false
+    
+    # Check and launch Docker if available
+    if command_exists docker; then
+        progress "Docker detected - checking if running..."
+        if ! docker info >/dev/null 2>&1; then
+            if [[ "$DRY_RUN" == "true" ]]; then
+                log "[DRY RUN] Would launch Docker Desktop in background"
+            else
+                progress "Docker not running - attempting to start Docker Desktop..."
+                case $OS in
+                    macos)
+                        if [[ -d "/Applications/Docker.app" ]]; then
+                            log "Starting Docker Desktop..."
+                            open -a Docker &
+                            docker_launched=true
+                        else
+                            warning "Docker Desktop not found in Applications"
+                        fi
+                        ;;
+                    linux)
+                        if command_exists systemctl; then
+                            log "Starting Docker service..."
+                            sudo systemctl start docker 2>/dev/null || true &
+                            docker_launched=true
+                        fi
+                        ;;
+                esac
+            fi
+        else
+            success "Docker is already running"
+        fi
+    else
+        log "Docker not yet installed - will be installed later"
+    fi
+    
+    # Check and launch Ollama if available
+    if command_exists ollama; then
+        progress "Ollama detected - checking if server is running..."
+        if ! curl -s http://localhost:11434/api/tags >/dev/null 2>&1; then
+            if [[ "$DRY_RUN" == "true" ]]; then
+                log "[DRY RUN] Would launch Ollama server in background"
+            else
+                progress "Ollama server not running - starting in background..."
+                log "Starting Ollama server..."
+                ollama serve &
+                ollama_launched=true
+            fi
+        else
+            success "Ollama server is already running"
+        fi
+    else
+        log "Ollama not yet installed - will be installed later"
+    fi
+    
+    # Wait for launched services to initialize
+    if [[ "$docker_launched" == "true" || "$ollama_launched" == "true" ]] && [[ "$DRY_RUN" != "true" ]]; then
+        progress "Waiting for launched services to initialize..."
+        
+        if [[ "$docker_launched" == "true" ]]; then
+            log "Waiting for Docker to be ready..."
+            local docker_wait=0
+            while [[ $docker_wait -lt 30 ]] && ! docker info >/dev/null 2>&1; do
+                sleep 2
+                ((docker_wait += 2))
+                echo -n "."
+            done
+            echo ""
+            
+            if docker info >/dev/null 2>&1; then
+                success "Docker is ready"
+            else
+                warning "Docker may still be starting - installation will continue"
+            fi
+        fi
+        
+        if [[ "$ollama_launched" == "true" ]]; then
+            log "Waiting for Ollama server to be ready..."
+            local ollama_wait=0
+            while [[ $ollama_wait -lt 15 ]] && ! curl -s http://localhost:11434/api/tags >/dev/null 2>&1; do
+                sleep 1
+                ((ollama_wait += 1))
+                echo -n "."
+            done
+            echo ""
+            
+            if curl -s http://localhost:11434/api/tags >/dev/null 2>&1; then
+                success "Ollama server is ready"
+            else
+                warning "Ollama server may still be starting - installation will continue"
+            fi
+        fi
+    fi
+    
+    log "Early service launch completed"
+}
+
 # Install and update package managers
 install_package_manager() {
     case $OS in
@@ -308,19 +411,32 @@ start_services() {
     
     # Check if Docker is running
     if ! docker info >/dev/null 2>&1; then
-        warning "Docker is not running. Please start Docker Desktop and run:"
-        warning "docker compose up -d anythingllm n8n"
-        return 1
+        warning "Docker is not running yet. Attempting to start services anyway..."
+        
+        # Try to start Docker services, but don't fail if it doesn't work
+        cd "$SCRIPT_DIR"
+        if docker compose up -d anythingllm n8n 2>/dev/null; then
+            success "Docker services started successfully"
+            log "AnythingLLM: http://localhost:3001 (starting up...)"
+            log "n8n: http://localhost:5678"
+        else
+            warning "Docker services could not be started automatically"
+            log "You can start them manually later with:"
+            log "  docker compose up -d anythingllm n8n"
+        fi
+        return 0  # Don't fail the installation
     fi
     
     cd "$SCRIPT_DIR"
-    if docker compose up -d anythingllm n8n; then
+    # Try to start services without failing installation on error
+    if docker compose up -d anythingllm n8n 2>/dev/null; then
         success "Docker services started"
         log "AnythingLLM: http://localhost:3001 (starting up...)"
         log "n8n: http://localhost:5678"
     else
-        warning "Failed to start Docker services. Try manually:"
-        warning "docker compose up -d anythingllm n8n"
+        warning "Could not start Docker services automatically. Try manually:"
+        log "  docker compose up -d anythingllm n8n"
+        log "Installation will continue..."
     fi
 }
 
@@ -345,6 +461,9 @@ main() {
     
     detect_os
     log "Detected OS: $OS with package manager: $PKG_MGR"
+    
+    # Launch existing services early to avoid warnings later
+    early_service_launch
     
     # Install Ollama with automation
     progress "Installing Ollama with automated setup..."

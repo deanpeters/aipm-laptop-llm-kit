@@ -1,0 +1,166 @@
+{
+  "description": "PM User Story Generator - Create detailed user stories from feature descriptions using local LLM",
+  "name": "PM User Story Generator",
+  "id": "pm-user-story-generator",
+  "data": {
+    "nodes": [
+      {
+        "id": "ChatInput-1",
+        "type": "ChatInput",
+        "position": {
+          "x": 200,
+          "y": 200
+        },
+        "data": {
+          "type": "ChatInput",
+          "node": {
+            "base_classes": ["Message"],
+            "description": "Get chat input from the user.",
+            "display_name": "Chat Input",
+            "documentation": "",
+            "custom_fields": {},
+            "output_types": [],
+            "field_formatters": {},
+            "beta": false,
+            "error": null
+          },
+          "value": {
+            "input_value": "Feature: User login with social media accounts",
+            "sender_name": "User",
+            "sender": "User",
+            "session_id": "",
+            "should_store_message": true
+          }
+        }
+      },
+      {
+        "id": "PromptTemplate-1", 
+        "type": "PromptTemplate",
+        "position": {
+          "x": 500,
+          "y": 200
+        },
+        "data": {
+          "type": "PromptTemplate",
+          "node": {
+            "base_classes": ["StringPromptValue"],
+            "description": "Create a prompt template with multiple inputs.",
+            "display_name": "Prompt",
+            "documentation": "",
+            "custom_fields": {},
+            "output_types": [],
+            "field_formatters": {},
+            "beta": false,
+            "error": null
+          },
+          "value": {
+            "template": "You are a senior Product Manager. Create a detailed user story based on this feature request:\n\n\"{feature_description}\"\n\nYour response must include:\n\n## User Story\nWrite in the format: \"As a [user type], I want [goal] so that [benefit]\"\n\n## Acceptance Criteria\nProvide 3-5 specific, testable conditions that must be met\n\n## Definition of Done\nList technical and business requirements for completion\n\n## Story Points\nEstimate complexity: 1 (trivial), 2 (small), 3 (medium), 5 (large), 8 (very large), 13 (epic)\n\n## Edge Cases\nList 2-3 potential edge cases to consider during development\n\n## Dependencies\nNote any dependencies on other features or systems\n\nMake the response professional but concise, suitable for development team consumption.",
+            "input_variables": ["feature_description"]
+          }
+        }
+      },
+      {
+        "id": "OpenAI-1",
+        "type": "OpenAI", 
+        "position": {
+          "x": 800,
+          "y": 200
+        },
+        "data": {
+          "type": "OpenAI",
+          "node": {
+            "base_classes": ["BaseLanguageModel"],
+            "description": "OpenAI large language models.",
+            "display_name": "OpenAI",
+            "documentation": "",
+            "custom_fields": {},
+            "output_types": [],
+            "field_formatters": {},
+            "beta": false,
+            "error": null
+          },
+          "value": {
+            "api_key": "{LLM_API_KEY}",
+            "base_url": "{LLM_BASE_URL}",
+            "model_name": "{LLM_MODEL_NAME}",
+            "temperature": 0.3,
+            "max_tokens": 1000,
+            "top_p": 1,
+            "frequency_penalty": 0,
+            "presence_penalty": 0,
+            "n": 1,
+            "request_timeout": 600,
+            "seed": null,
+            "stream": false,
+            "system_message": "",
+            "input_value": "",
+            "model_kwargs": "{}"
+          }
+        }
+      },
+      {
+        "id": "ChatOutput-1",
+        "type": "ChatOutput",
+        "position": {
+          "x": 1100,
+          "y": 200
+        },
+        "data": {
+          "type": "ChatOutput",
+          "node": {
+            "base_classes": ["Message"],
+            "description": "Display a chat message in the Playground.",
+            "display_name": "Chat Output", 
+            "documentation": "",
+            "custom_fields": {},
+            "output_types": [],
+            "field_formatters": {},
+            "beta": false,
+            "error": null
+          },
+          "value": {
+            "input_value": "",
+            "sender": "AI Assistant",
+            "sender_name": "PM Assistant",
+            "session_id": "",
+            "data_template": "{text}",
+            "should_store_message": true
+          }
+        }
+      }
+    ],
+    "edges": [
+      {
+        "source": "ChatInput-1",
+        "sourceHandle": "output",
+        "target": "PromptTemplate-1", 
+        "targetHandle": "feature_description",
+        "id": "edge-1"
+      },
+      {
+        "source": "PromptTemplate-1",
+        "sourceHandle": "output",
+        "target": "OpenAI-1",
+        "targetHandle": "input_value", 
+        "id": "edge-2"
+      },
+      {
+        "source": "OpenAI-1",
+        "sourceHandle": "output",
+        "target": "ChatOutput-1",
+        "targetHandle": "input_value",
+        "id": "edge-3"
+      }
+    ],
+    "viewport": {
+      "x": 0,
+      "y": 0,
+      "zoom": 1
+    }
+  },
+  "is_component": false,
+  "updated_at": "2024-01-01T00:00:00Z",
+  "folder_id": null,
+  "flows": [],
+  "endpoint_name": null
+}

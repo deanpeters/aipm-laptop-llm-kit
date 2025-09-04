@@ -1,0 +1,97 @@
+{
+  "models": [
+    {
+      "title": "Local LM Studio",
+      "provider": "openai",
+      "model": "local-model",
+      "apiBase": "http://localhost:1234/v1",
+      "apiKey": "not-needed"
+    }
+  ],
+  "tabAutocompleteModel": {
+    "title": "Local LM Studio Autocomplete",
+    "provider": "openai",
+    "model": "local-model",
+    "apiBase": "http://localhost:1234/v1",
+    "apiKey": "not-needed"
+  },
+  "customCommands": [
+    {
+      "name": "commit",
+      "prompt": "{{{ input }}}\n\nWrite a concise git commit message for these changes. Use conventional commit format (feat:, fix:, docs:, etc.).",
+      "description": "Generate a commit message"
+    },
+    {
+      "name": "explain",
+      "prompt": "Explain how this code works:\n\n{{{ input }}}",
+      "description": "Explain selected code"
+    },
+    {
+      "name": "optimize",
+      "prompt": "Suggest optimizations for this code:\n\n{{{ input }}}\n\nFocus on performance, readability, and best practices.",
+      "description": "Optimize selected code"
+    },
+    {
+      "name": "test",
+      "prompt": "Write unit tests for this code:\n\n{{{ input }}}\n\nUse appropriate testing framework and include edge cases.",
+      "description": "Generate unit tests"
+    },
+    {
+      "name": "document",
+      "prompt": "Add comprehensive documentation to this code:\n\n{{{ input }}}\n\nInclude JSDoc/docstring comments, parameter descriptions, and examples.",
+      "description": "Add documentation"
+    },
+    {
+      "name": "refactor",
+      "prompt": "Refactor this code for better maintainability:\n\n{{{ input }}}\n\nImprove structure, naming, and separation of concerns.",
+      "description": "Refactor code"
+    }
+  ],
+  "contextProviders": [
+    {
+      "name": "diff",
+      "params": {}
+    },
+    {
+      "name": "folder",
+      "params": {}
+    },
+    {
+      "name": "codebase",
+      "params": {}
+    },
+    {
+      "name": "git",
+      "params": {}
+    },
+    {
+      "name": "terminal",
+      "params": {}
+    }
+  ],
+  "slashCommands": [
+    {
+      "name": "edit",
+      "description": "Edit selected code"
+    },
+    {
+      "name": "comment",
+      "description": "Add comments to code"
+    },
+    {
+      "name": "share",
+      "description": "Share code context"
+    },
+    {
+      "name": "cmd",
+      "description": "Generate terminal command"
+    }
+  ],
+  "allowAnonymousTelemetry": false,
+  "embeddingsProvider": {
+    "provider": "openai",
+    "model": "text-embedding-3-small",
+    "apiBase": "http://localhost:1234/v1",
+    "apiKey": "not-needed"
+  }
+}

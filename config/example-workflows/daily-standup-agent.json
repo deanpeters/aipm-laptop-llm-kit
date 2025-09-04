@@ -1,0 +1,83 @@
+{
+  "name": "Daily Standup Agent",
+  "nodes": [
+    {
+      "parameters": {},
+      "id": "23c9a8b5-8b71-4b12-9b84-8c5a7f2d4e1a",
+      "name": "Schedule Daily at 9 AM",
+      "type": "n8n-nodes-base.scheduleTrigger",
+      "position": [260, 300],
+      "typeVersion": 1.1
+    },
+    {
+      "parameters": {
+        "content": "=Generate a daily standup template for a product manager. Include:\n- Yesterday's accomplishments\n- Today's priorities  \n- Any blockers or challenges\n- Key metrics to track\n- Action items for stakeholders\n\nFormat as a professional but friendly update suitable for a team meeting.",
+        "options": {}
+      },
+      "id": "45f6d8c7-2a9b-4c8d-9e3f-1a5b6c7d8e9f",
+      "name": "Generate Standup Content",
+      "type": "n8n-nodes-base.openAi", 
+      "position": [480, 300],
+      "typeVersion": 1,
+      "credentials": {
+        "openAiApi": {
+          "id": "local-lm-studio",
+          "name": "Local LM Studio"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "authentication": "none",
+        "requestMethod": "POST",
+        "url": "={{ $env.SLACK_WEBHOOK_URL }}",
+        "options": {},
+        "bodyParameters": {
+          "parameters": [
+            {
+              "name": "text",
+              "value": "=🌅 *Daily Standup - {{ new Date().toLocaleDateString() }}*\n\n{{ $json.choices[0].message.content }}"
+            }
+          ]
+        }
+      },
+      "id": "67a8b9c0-3d4e-5f6a-7b8c-9d0e1f2a3b4c",
+      "name": "Post to Slack",
+      "type": "n8n-nodes-base.httpRequest",
+      "position": [700, 300],
+      "typeVersion": 4.1
+    }
+  ],
+  "connections": {
+    "Schedule Daily at 9 AM": {
+      "main": [
+        [
+          {
+            "node": "Generate Standup Content",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Generate Standup Content": {
+      "main": [
+        [
+          {
+            "node": "Post to Slack",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    }
+  },
+  "settings": {
+    "executionOrder": "v1"
+  },
+  "staticData": null,
+  "tags": [],
+  "triggerCount": 0,
+  "updatedAt": "2024-01-01T00:00:00.000Z",
+  "versionId": "1"
+}

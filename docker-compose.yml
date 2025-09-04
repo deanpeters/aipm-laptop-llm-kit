@@ -1,0 +1,121 @@
+services:
+  # AnythingLLM - Local RAG and document chat
+  anythingllm:
+    image: mintplexlabs/anythingllm:latest
+    container_name: anythingllm
+    ports:
+      - "${ANYTHINGLLM_PORT:-3001}:3001"
+    volumes:
+      - "${ANYTHINGLLM_STORAGE:-./storage/anythingllm}:/app/server/storage"
+      - "${ANYTHINGLLM_STORAGE:-./storage/anythingllm}/hotdir:/app/server/storage/hotdir"
+    environment:
+      - STORAGE_DIR=/app/server/storage
+      - LLM_PROVIDER=custom-openai
+      - OPENAI_API_BASE_URL=${LLM_BASE_URL:-http://host.docker.internal:1234/v1}
+      - OPENAI_API_KEY=local-api-key
+    restart: unless-stopped
+    extra_hosts:
+      - "host.docker.internal:host-gateway"
+
+  # n8n - Workflow automation and monitoring
+  n8n:
+    image: n8nio/n8n:latest
+    container_name: n8n
+    ports:
+      - "${N8N_PORT:-5678}:5678"
+    volumes:
+      - "${N8N_STORAGE:-./storage/n8n}:/home/node/.n8n"
+      - "./config/workflows:/home/node/.n8n/workflows:ro"
+    environment:
+      - N8N_BASIC_AUTH_ACTIVE=false
+      - N8N_HOST=0.0.0.0
+      - N8N_PORT=5678
+      - WEBHOOK_URL=http://localhost:${N8N_PORT:-5678}/
+      - N8N_METRICS=true
+      # LM Studio Configuration
+      - LLM_BASE_URL=${LLM_BASE_URL:-http://localhost:1234/v1}
+      - LLM_API_KEY=${LLM_API_KEY:-local-lmstudio-key}
+      - LLM_MODEL_NAME=${LLM_MODEL_NAME:-phi-3-mini-4k-instruct}
+      - LLM_DOCKER_URL=${LLM_DOCKER_URL:-http://host.docker.internal:1234/v1}
+      # Ollama Configuration  
+      - OLLAMA_BASE_URL=${OLLAMA_BASE_URL:-http://localhost:11434/v1}
+      - OLLAMA_API_KEY=${OLLAMA_API_KEY:-local-ollama-key}
+      - OLLAMA_MODEL_NAME=${OLLAMA_MODEL_NAME:-phi3:mini}
+      - OLLAMA_DOCKER_URL=${OLLAMA_DOCKER_URL:-http://host.docker.internal:11434/v1}
+      # Provider Selection
+      - DEFAULT_LLM_PROVIDER=${DEFAULT_LLM_PROVIDER:-lmstudio}
+      - BACKUP_LLM_PROVIDER=${BACKUP_LLM_PROVIDER:-ollama}
+    restart: unless-stopped
+    extra_hosts:
+      - "host.docker.internal:host-gateway"
+
+  # PrivateGPT - Backup offline document chat (optional)
+  privategpt:
+    image: 3x3cut0r/privategpt:latest
+    container_name: privategpt
+    profiles: ["optional"]
+    ports:
+      - "${PRIVATEGPT_PORT:-8001}:8080"
+    volumes:
+      - "${PRIVATEGPT_STORAGE:-./storage/privategpt}:/app/data"
+    restart: unless-stopped
+
+  # LangFlow - Visual LLM workflow builder (optional)
+  langflow:
+    image: langflowai/langflow:latest
+    container_name: langflow
+    profiles: ["optional"]
+    ports:
+      - "${LANGFLOW_PORT:-7860}:7860"
+    volumes:
+      - "${LANGFLOW_STORAGE:-./storage/langflow}:/app/langflow"
+    environment:
+      - LANGFLOW_HOST=0.0.0.0
+      - LANGFLOW_PORT=7860
+      # LM Studio Configuration
+      - LLM_BASE_URL=${LLM_BASE_URL:-http://localhost:1234/v1}
+      - LLM_API_KEY=${LLM_API_KEY:-local-lmstudio-key}
+      - LLM_MODEL_NAME=${LLM_MODEL_NAME:-phi-3-mini-4k-instruct}
+      - LLM_DOCKER_URL=${LLM_DOCKER_URL:-http://host.docker.internal:1234/v1}
+      # Ollama Configuration
+      - OLLAMA_BASE_URL=${OLLAMA_BASE_URL:-http://localhost:11434/v1}
+      - OLLAMA_API_KEY=${OLLAMA_API_KEY:-local-ollama-key}
+      - OLLAMA_MODEL_NAME=${OLLAMA_MODEL_NAME:-phi3:mini}
+      - OLLAMA_DOCKER_URL=${OLLAMA_DOCKER_URL:-http://host.docker.internal:11434/v1}
+      # Provider Selection
+      - DEFAULT_LLM_PROVIDER=${DEFAULT_LLM_PROVIDER:-lmstudio}
+      - BACKUP_LLM_PROVIDER=${BACKUP_LLM_PROVIDER:-ollama}
+    restart: unless-stopped
+    extra_hosts:
+      - "host.docker.internal:host-gateway"
+
+  # Ollama Web UI - Alternative to LM Studio (optional)
+  ollama-webui:
+    image: ghcr.io/open-webui/open-webui:main
+    container_name: ollama-webui
+    profiles: ["optional"]
+    ports:
+      - "${OLLAMA_WEBUI_PORT:-8080}:8080"
+    volumes:
+      - "${OLLAMA_WEBUI_STORAGE:-./storage/ollama-webui}:/app/backend/data"
+    environment:
+      - OLLAMA_API_BASE_URL=http://host.docker.internal:11434/api
+    restart: unless-stopped
+    extra_hosts:
+      - "host.docker.internal:host-gateway"
+
+volumes:
+  anythingllm_storage:
+    driver: local
+  n8n_storage:
+    driver: local
+  privategpt_storage:
+    driver: local
+  langflow_storage:
+    driver: local
+  ollama_webui_storage:
+    driver: local
+
+networks:
+  default:
+    driver: bridge

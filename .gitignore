@@ -1,0 +1,26 @@
+# Environment and secrets
+.env
+.env.local
+*.log
+
+# Storage directories (user data)
+storage/
+logs/
+
+# OS specific files
+.DS_Store
+Thumbs.db
+*.swp
+*.swo
+
+# Temporary files
+*.tmp
+*.temp
+
+# IDE files
+.vscode/settings.json
+.idea/
+
+# Backup files
+*.backup
+*~

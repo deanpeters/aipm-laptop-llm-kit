@@ -1,0 +1,156 @@
+{
+  "name": "User Story Generator Agent",
+  "nodes": [
+    {
+      "parameters": {
+        "httpMethod": "POST",
+        "path": "generate-story",
+        "responseMode": "responseNode",
+        "options": {}
+      },
+      "id": "12b3c4d5-6e7f-8a9b-0c1d-2e3f4a5b6c7d",
+      "name": "Webhook Trigger",
+      "type": "n8n-nodes-base.webhook",
+      "position": [240, 300],
+      "typeVersion": 1,
+      "webhookId": "user-story-webhook"
+    },
+    {
+      "parameters": {
+        "content": "=Create a detailed user story based on this feature request:\n\n\"{{ $json.body.feature_description }}\"\n\nInclude:\n- User story in \"As a [user], I want [goal] so that [benefit]\" format\n- Acceptance criteria (3-5 specific, testable conditions)\n- Definition of done checklist\n- Potential edge cases to consider\n- Estimated story points (1, 2, 3, 5, 8, 13)\n\nTarget user: {{ $json.body.target_user || 'general user' }}\nPriority: {{ $json.body.priority || 'medium' }}",
+        "options": {
+          "model": "={{ $env.LLM_MODEL_NAME }}",
+          "temperature": 0.3
+        }
+      },
+      "id": "34c5d6e7-8f9a-0b1c-2d3e-4f5a6b7c8d9e",
+      "name": "Generate User Story",
+      "type": "n8n-nodes-base.openAi",
+      "position": [460, 300],
+      "typeVersion": 1,
+      "credentials": {
+        "openAiApi": {
+          "id": "local-lm-studio", 
+          "name": "Local LM Studio"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "respondWith": "json",
+        "responseBody": "={\n  \"status\": \"success\",\n  \"user_story\": {{ $json.choices[0].message.content | jsonStringify }},\n  \"generated_at\": \"{{ new Date().toISOString() }}\",\n  \"model_used\": \"{{ $env.LLM_MODEL_NAME }}\"\n}",
+        "options": {}
+      },
+      "id": "56d7e8f9-0a1b-2c3d-4e5f-6a7b8c9d0e1f",
+      "name": "Return Response",
+      "type": "n8n-nodes-base.respondToWebhook",
+      "position": [680, 300],
+      "typeVersion": 1
+    },
+    {
+      "parameters": {
+        "conditions": {
+          "options": {
+            "caseSensitive": true,
+            "leftValue": "",
+            "typeValidation": "strict"
+          },
+          "conditions": [
+            {
+              "id": "condition-1",
+              "leftValue": "={{ $json.body.save_to_notion }}",
+              "rightValue": "true",
+              "operator": {
+                "type": "string",
+                "operation": "equals"
+              }
+            }
+          ],
+          "combinator": "and"
+        },
+        "options": {}
+      },
+      "id": "78e9f0a1-2b3c-4d5e-6f7a-8b9c0d1e2f3a",
+      "name": "Save to Notion?",
+      "type": "n8n-nodes-base.if",
+      "position": [460, 500],
+      "typeVersion": 2
+    },
+    {
+      "parameters": {
+        "resource": "page",
+        "databaseId": "={{ $env.NOTION_DATABASE_ID }}",
+        "title": "=User Story: {{ $json.body.feature_description | truncate(50) }}",
+        "properties": {
+          "properties": [
+            {
+              "key": "Story",
+              "textContent": "={{ $('Generate User Story').item.json.choices[0].message.content }}"
+            },
+            {
+              "key": "Status", 
+              "optionName": "Backlog"
+            },
+            {
+              "key": "Priority",
+              "optionName": "={{ $json.body.priority || 'Medium' }}"
+            }
+          ]
+        }
+      },
+      "id": "9af0b1c2-3d4e-5f6a-7b8c-9d0e1f2a3b4c",
+      "name": "Create Notion Page",
+      "type": "n8n-nodes-base.notion",
+      "position": [680, 600],
+      "typeVersion": 2
+    }
+  ],
+  "connections": {
+    "Webhook Trigger": {
+      "main": [
+        [
+          {
+            "node": "Generate User Story",
+            "type": "main",
+            "index": 0
+          },
+          {
+            "node": "Save to Notion?",
+            "type": "main", 
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Generate User Story": {
+      "main": [
+        [
+          {
+            "node": "Return Response",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Save to Notion?": {
+      "main": [
+        [
+          {
+            "node": "Create Notion Page",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    }
+  },
+  "settings": {
+    "executionOrder": "v1"
+  },
+  "staticData": null,
+  "tags": ["pm", "user-stories", "agent"],
+  "triggerCount": 0,
+  "updatedAt": "2024-01-01T00:00:00.000Z",
+  "versionId": "1"
+}

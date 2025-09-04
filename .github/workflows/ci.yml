@@ -1,0 +1,79 @@
+name: CI
+
+on:
+  push:
+    branches: [ main, develop ]
+  pull_request:
+    branches: [ main ]
+
+jobs:
+  test:
+    runs-on: ${{ matrix.os }}
+    strategy:
+      matrix:
+        os: [ubuntu-latest, macos-latest, windows-latest]
+        
+    steps:
+    - uses: actions/checkout@v4
+    
+    - name: Install ShellCheck (Ubuntu/macOS)
+      if: matrix.os != 'windows-latest'
+      run: |
+        if [ "$RUNNER_OS" = "Linux" ]; then
+          sudo apt-get update && sudo apt-get install -y shellcheck
+        elif [ "$RUNNER_OS" = "macOS" ]; then
+          brew install shellcheck
+        fi
+    
+    - name: Install PowerShell (Ubuntu/macOS)
+      if: matrix.os != 'windows-latest'
+      shell: bash
+      run: |
+        if [ "$RUNNER_OS" = "Linux" ]; then
+          curl -L -o powershell.deb https://github.com/PowerShell/PowerShell/releases/download/v7.4.0/powershell_7.4.0-1.deb_amd64.deb
+          sudo dpkg -i powershell.deb
+          sudo apt-get install -f
+        elif [ "$RUNNER_OS" = "macOS" ]; then
+          brew install powershell
+        fi
+    
+    - name: Lint Shell Scripts
+      if: matrix.os != 'windows-latest'
+      run: |
+        find . -name "*.sh" -not -path "./storage/*" -not -path "./.git/*" | xargs shellcheck -f gcc
+    
+    - name: Lint PowerShell Scripts
+      shell: pwsh
+      run: |
+        Install-Module -Name PSScriptAnalyzer -Force -Scope CurrentUser
+        $scripts = Get-ChildItem -Recurse -Filter "*.ps1" -Exclude "storage" | Where-Object { $_.FullName -notlike "*storage*" -and $_.FullName -notlike "*.git*" }
+        foreach ($script in $scripts) {
+          Write-Host "Analyzing $($script.FullName)"
+          $results = Invoke-ScriptAnalyzer -Path $script.FullName
+          if ($results) {
+            $results | Format-Table
+            exit 1
+          }
+        }
+    
+    - name: Dry Run Installation (Unix)
+      if: matrix.os != 'windows-latest'
+      run: |
+        chmod +x ./install.sh
+        ./install.sh --dry-run
+    
+    - name: Dry Run Installation (Windows)
+      if: matrix.os == 'windows-latest'
+      shell: pwsh
+      run: |
+        Set-ExecutionPolicy -ExecutionPolicy RemoteSigned -Scope CurrentUser -Force
+        .\install.ps1 -DryRun
+    
+    - name: Upload Logs
+      if: always()
+      uses: actions/upload-artifact@v4
+      with:
+        name: install-logs-${{ matrix.os }}
+        path: |
+          install.log
+          *.log

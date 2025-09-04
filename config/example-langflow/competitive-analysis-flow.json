@@ -1,0 +1,166 @@
+{
+  "description": "Competitive Analysis Generator - Analyze competitors and market positioning using local LLM",
+  "name": "Competitive Analysis Generator",
+  "id": "competitive-analysis-generator",
+  "data": {
+    "nodes": [
+      {
+        "id": "ChatInput-1",
+        "type": "ChatInput",
+        "position": {
+          "x": 200,
+          "y": 200
+        },
+        "data": {
+          "type": "ChatInput",
+          "node": {
+            "base_classes": ["Message"],
+            "description": "Get chat input from the user.",
+            "display_name": "Chat Input",
+            "documentation": "",
+            "custom_fields": {},
+            "output_types": [],
+            "field_formatters": {},
+            "beta": false,
+            "error": null
+          },
+          "value": {
+            "input_value": "Product: Task management app for remote teams\nCompetitors: Asana, Monday.com, Trello",
+            "sender_name": "User",
+            "sender": "User", 
+            "session_id": "",
+            "should_store_message": true
+          }
+        }
+      },
+      {
+        "id": "PromptTemplate-1",
+        "type": "PromptTemplate",
+        "position": {
+          "x": 500,
+          "y": 200
+        },
+        "data": {
+          "type": "PromptTemplate",
+          "node": {
+            "base_classes": ["StringPromptValue"],
+            "description": "Create a prompt template with multiple inputs.",
+            "display_name": "Prompt",
+            "documentation": "",
+            "custom_fields": {},
+            "output_types": [],
+            "field_formatters": {},
+            "beta": false,
+            "error": null
+          },
+          "value": {
+            "template": "You are a senior Product Manager conducting competitive analysis. Analyze the following:\n\nProduct: {product_info}\n\nCreate a comprehensive competitive analysis with these sections:\n\n## Executive Summary\nBrief overview of the competitive landscape\n\n## Competitor Breakdown\nFor each competitor, analyze:\n- Core Value Proposition\n- Key Features & Differentiators  \n- Pricing Strategy\n- Target Market\n- Strengths & Weaknesses\n\n## Market Positioning\n- Market segments and positioning\n- White space opportunities\n- Competitive advantages to pursue\n\n## Strategic Recommendations\n3-5 actionable recommendations for:\n- Product differentiation\n- Market positioning\n- Feature prioritization\n- Go-to-market strategy\n\n## Threats & Opportunities\n- Immediate competitive threats\n- Market opportunities to capture\n- Potential disruption risks\n\nProvide actionable insights that inform product strategy and roadmap decisions.",
+            "input_variables": ["product_info"]
+          }
+        }
+      },
+      {
+        "id": "OpenAI-1",
+        "type": "OpenAI",
+        "position": {
+          "x": 800,
+          "y": 200
+        },
+        "data": {
+          "type": "OpenAI",
+          "node": {
+            "base_classes": ["BaseLanguageModel"],
+            "description": "OpenAI large language models.",
+            "display_name": "OpenAI",
+            "documentation": "",
+            "custom_fields": {},
+            "output_types": [],
+            "field_formatters": {},
+            "beta": false,
+            "error": null
+          },
+          "value": {
+            "api_key": "{LLM_API_KEY}",
+            "base_url": "{LLM_BASE_URL}",
+            "model_name": "{LLM_MODEL_NAME}",
+            "temperature": 0.4,
+            "max_tokens": 2000,
+            "top_p": 1,
+            "frequency_penalty": 0,
+            "presence_penalty": 0,
+            "n": 1,
+            "request_timeout": 600,
+            "seed": null,
+            "stream": false,
+            "system_message": "",
+            "input_value": "",
+            "model_kwargs": "{}"
+          }
+        }
+      },
+      {
+        "id": "ChatOutput-1",
+        "type": "ChatOutput",
+        "position": {
+          "x": 1100,
+          "y": 200
+        },
+        "data": {
+          "type": "ChatOutput",
+          "node": {
+            "base_classes": ["Message"],
+            "description": "Display a chat message in the Playground.",
+            "display_name": "Chat Output",
+            "documentation": "",
+            "custom_fields": {},
+            "output_types": [],
+            "field_formatters": {},
+            "beta": false,
+            "error": null
+          },
+          "value": {
+            "input_value": "",
+            "sender": "AI Assistant", 
+            "sender_name": "Competitive Analyst",
+            "session_id": "",
+            "data_template": "{text}",
+            "should_store_message": true
+          }
+        }
+      }
+    ],
+    "edges": [
+      {
+        "source": "ChatInput-1",
+        "sourceHandle": "output",
+        "target": "PromptTemplate-1",
+        "targetHandle": "product_info",
+        "id": "edge-1"
+      },
+      {
+        "source": "PromptTemplate-1", 
+        "sourceHandle": "output",
+        "target": "OpenAI-1",
+        "targetHandle": "input_value",
+        "id": "edge-2"
+      },
+      {
+        "source": "OpenAI-1",
+        "sourceHandle": "output", 
+        "target": "ChatOutput-1",
+        "targetHandle": "input_value",
+        "id": "edge-3"
+      }
+    ],
+    "viewport": {
+      "x": 0,
+      "y": 0,
+      "zoom": 1
+    }
+  },
+  "is_component": false,
+  "updated_at": "2024-01-01T00:00:00Z",
+  "folder_id": null,
+  "flows": [],
+  "endpoint_name": null
+}

@@ -25,110 +25,128 @@ Transform your laptop into a powerful AI workstation with local models, document
 ## 🚀 Quick Start
 
 ### macOS / Linux
-~~~bash
+
+```bash
 git clone https://github.com/deanpeters/aipm-laptop-llm-kit.git
 cd aipm-laptop-llm-kit
 ./install.sh
-~~~
+```
 
 ### Windows
-~~~powershell
+
+```powershell
 git clone https://github.com/deanpeters/aipm-laptop-llm-kit.git
 cd aipm-laptop-llm-kit
 .\install.ps1
-~~~
+```
 
 **That's it!** The installer will:
+
 - ✅ **Detect your system** and install package managers (Homebrew/Chocolatey)
 - ✅ **Update pip** and install essential Python packages
-- ✅ **Install all dependencies** (Docker, VS Code, LM Studio with model)
+- ✅ **Install all dependencies** (Docker, VS Code, Ollama with model)
 - ✅ **Configure everything** to work together seamlessly
 - ✅ **Verify the installation** with comprehensive health checks
 
 ## 🚀 Quick Start - Test Drive Everything
 
 ### **Step 0: Start Docker Services**
+
 **macOS/Linux:**
+
 1. Open Terminal in this folder
 2. Start Docker Desktop (Spotlight search "Docker" or from Applications)
 3. Wait for Docker whale icon in menu bar to show "Docker Desktop is running"
 4. Run: `docker compose up -d anythingllm n8n`
 
 **Windows:**
+
 1. Open PowerShell as Administrator in this folder  
 2. Start Docker Desktop (Start menu → Docker Desktop)
 3. Wait for Docker system tray icon to show "Docker Desktop is running"
 4. Run: `docker compose up -d anythingllm n8n`
 
-### 1. **LM Studio** (2 minutes)
-1. **Start:** Open "LM Studio" from Applications/Start Menu
-2. **Download Model:** Click "Discover" → Search "Phi-3" → Download "Phi-3 Mini 4K Instruct" 
-3. **Start Server:** Go to "Local Server" tab → Load the model → Click "Start Server"
-4. **Test:** Open Terminal/PowerShell → Run `curl http://localhost:1234/v1/models`
+### 1. **Ollama** (2 minutes)
 
-### 2. **AnythingLLM** (1 minute)  
+1. **Start:** Ollama should start automatically, or run: `ollama serve`
+2. **Download Model:** Run `ollama pull phi3:mini` (should happen automatically during install)
+3. **Verify:** Run `ollama list` to see installed models
+4. **Test:** Run `curl http://localhost:11434/api/tags` to check the API
+
+### 2. **AnythingLLM** (1 minute)
+
 1. **Open:** Go to http://localhost:3001 (wait ~60 seconds for startup)
 2. **Setup:** Create account → Create workspace → Name it "Test"
-3. **LLM Setup:** If prompted for LLM config, it should auto-detect LM Studio. If not:
+3. **LLM Setup:** If prompted for LLM config, it should auto-detect Ollama. If not:
    - Choose "Generic OpenAI"
-   - Base URL: `http://host.docker.internal:1234/v1`
+   - Base URL: `http://ollama:11434/v1`
    - API Key: `not-needed`
 4. **Upload:** Drag & drop a PDF or text file into the workspace
 5. **Chat:** Ask "What is this document about?" in the chat box
 
 ### 3. **n8n Workflows** (30 seconds)
+
 1. **Open:** Go to http://localhost:5678
 2. **Explore:** Click "Templates" in left menu → Search "webhook"
 3. **Try:** Click on any template → Click "Use this workflow"
 4. **Test:** Click the "Test workflow" button to see it run
 
 ### 4. **VS Code AI Coding** (30 seconds)
+
 1. **Open:** Run `code .` in Terminal/PowerShell (or open VS Code manually)
 2. **Start Cline:** Press `Ctrl+Shift+P` → Type "Cline: Start Cline" → Press Enter
 3. **Ask:** Type "Create a simple hello world Python script" 
 4. **Watch:** AI writes and explains the code for you!
 
 ### 5. **Optional Services** (Try these alternatives!)
+
 **PrivateGPT** - Alternative document chat:
-~~~bash
+
+```bash
 docker compose --profile optional up -d privategpt
 # Wait 2 minutes, then open: http://localhost:8001
 # Upload a document and chat with it
-~~~
+```
 
 **LangFlow** - Visual workflow builder:
-~~~bash
+
+```bash
 docker compose --profile optional up -d langflow  
 # Wait 1 minute, then open: http://localhost:7860
 # Drag and drop components to build AI workflows
-~~~
+```
 
 **Ollama Web UI** - Alternative LLM interface:
-~~~bash
+
+```bash
 # First install Ollama separately: https://ollama.ai/download
 # Then start the web UI:
 docker compose --profile optional up -d ollama-webui
 # Wait 1 minute, then open: http://localhost:8080
-~~~
+```
 
 ## 🎯 What You Get
 
 ### 🧠 Local AI Brain
-- **LM Studio**: Run models locally with GPU acceleration
+
+- **Ollama**: Run models locally with optimized performance
 - **Continue.dev**: AI coding assistant in VS Code
 - **Cline**: Advanced AI development workflows
 
 ### 📚 Smart Document Chat
+
 - **AnythingLLM**: Chat with your PDFs, docs, and knowledge base
 - **Private RAG**: Your documents never leave your machine
 - **Multiple file formats**: PDF, DOCX, TXT, Markdown, and more
 
 ### ⚡ Workflow Automation
+
 - **n8n**: Visual workflow builder for AI-powered automation
 - **Monitor stack updates**: Get notified when tools have new releases
 - **Custom workflows**: Build your own AI-powered processes
 
 ### 🔧 Development Tools
+
 - **VS Code**: Fully configured with AI extensions
 - **Docker services**: Everything runs in containers for easy management
 - **Environment management**: Automatic setup of all configuration
@@ -138,25 +156,30 @@ docker compose --profile optional up -d ollama-webui
 This kit includes comprehensive guides for every aspect of local AI setup and customization:
 
 ### 📖 Core Documentation
+
 - **[README.md](README.md)** - This file: Complete setup and usage guide
 - **[Offline-First Architecture](docs/offline-first-architecture.md)** - Why local AI is the future: cost analysis, security benefits, and 2026 trends
 - **[CLAUDE.md](CLAUDE.md)** - Development context, commands, and technical details
 
 ### 🎯 Model Training & Customization
+
 - **[Creating Training Data](docs/creating-training-data.md)** - Complete guide to preparing PM-specific training datasets
-- **[Training Models](docs/training-models.md)** - Step-by-step fine-tuning walkthrough with LM Studio
+- **[Training Models](docs/training-models.md)** - Step-by-step fine-tuning walkthrough with Ollama
 - **[Example Dataset](examples/dataset.jsonl)** - 19 ready-to-use PM training examples
 
 ### 🔌 Tool Integration
+
 - **[Connecting Tools](docs/connecting-tools.md)** - Complete guide to connecting VS Code, n8n, LangFlow, and all tools to your local LLM
 - **[Terminology Guide](docs/terminology-guide.md)** - Understand API keys, credentials, environment variables, and tool-specific terms
 
 ### ⚙️ Configuration & Setup
+
 - **[Environment Variables](config/env.example)** - All customizable settings and ports
 - **[Continue.dev Config](config/continue.json)** - VS Code AI assistant configuration
 - **[n8n Workflows](config/workflows/)** - Pre-built automation templates
 
 ### 📋 Additional Resources
+
 - **[Installation Scripts](scripts/)** - Individual component installers and utilities
 - **[Verification Tools](scripts/verify.sh)** - Health checks and troubleshooting
 - **[Uninstall Guide](uninstall.sh)** - Clean removal with confirmation prompts
@@ -166,22 +189,24 @@ This kit includes comprehensive guides for every aspect of local AI setup and cu
 ## 🏗️ What Gets Installed
 
 ### Core Stack (Always Installed)
-| Component | Purpose | Access |
-|-----------|---------|--------|
-| **LM Studio** | Local model server | Desktop app |
-| **AnythingLLM** | Document chat & RAG | http://localhost:3001 |
-| **n8n** | Workflow automation | http://localhost:5678 |
-| **Continue.dev** | VS Code AI assistant | Ctrl+I in VS Code |
-| **Cline** | Advanced AI workflows | Ctrl+Shift+P > "Cline" |
-| **Python AI Packages** | OpenAI, LangChain, NumPy, Pandas | Command line |
-| **Docker** | Container management | Command line |
+
+| Component              | Purpose                          | Access                 |
+| ---------------------- | -------------------------------- | ---------------------- |
+| **Ollama**             | Local model server               | `ollama serve`         |
+| **AnythingLLM**        | Document chat & RAG              | http://localhost:3001  |
+| **n8n**                | Workflow automation              | http://localhost:5678  |
+| **Continue.dev**       | VS Code AI assistant             | Ctrl+I in VS Code      |
+| **Cline**              | Advanced AI workflows            | Ctrl+Shift+P > "Cline" |
+| **Python AI Packages** | OpenAI, LangChain, NumPy, Pandas | Command line           |
+| **Docker**             | Container management             | Command line           |
 
 ### Optional Services (Available on demand)
-| Component | Purpose | Access | Start Command |
-|-----------|---------|--------|---------------|
-| **PrivateGPT** | Alternative document chat | http://localhost:8001 | `docker compose --profile optional up -d privategpt` |
-| **LangFlow** | Visual LLM workflow builder | http://localhost:7860 | `docker compose --profile optional up -d langflow` |
-| **Ollama Web UI** | Alternative to LM Studio | http://localhost:8080 | `docker compose --profile optional up -d ollama-webui` |
+
+| Component         | Purpose                     | Access                | Start Command                                          |
+| ----------------- | --------------------------- | --------------------- | ------------------------------------------------------ |
+| **PrivateGPT**    | Alternative document chat   | http://localhost:8001 | `docker compose --profile optional up -d privategpt`   |
+| **LangFlow**      | Visual LLM workflow builder | http://localhost:7860 | `docker compose --profile optional up -d langflow`     |
+| **Ollama Web UI** | Web interface for Ollama    | http://localhost:8080 | `docker compose --profile optional up -d ollama-webui` |
 
 ## 📋 System Requirements
 
@@ -192,11 +217,12 @@ This kit includes comprehensive guides for every aspect of local AI setup and cu
 - **Admin/sudo access** for package manager setup
 
 **Everything else is auto-installed:**
+
 - Package managers (Homebrew/Chocolatey)
 - Python with pip updates
 - Docker Desktop
 - VS Code with extensions
-- LM Studio with Phi-3 Mini model
+- Ollama with Phi-3 Mini model
 
 ## 🔐 Privacy First
 
@@ -210,51 +236,59 @@ This kit includes comprehensive guides for every aspect of local AI setup and cu
 ## 🎮 Usage Examples
 
 ### Chat with Documents
+
 1. Open AnythingLLM: http://localhost:3001
 2. Create a new workspace
 3. Upload your PDFs, docs, or folders
 4. Ask questions about your content
 
 ### AI-Powered Coding
+
 1. Open VS Code: `code .`
 2. Press `Ctrl+I` (Continue.dev) or `Ctrl+Shift+P` > "Cline"
 3. Describe what you want to build
 4. Watch AI write and explain code
 
 ### Workflow Automation
+
 1. Open n8n: http://localhost:5678
 2. Import pre-built workflows from [`config/workflows/`](config/workflows/)
 3. Create custom AI-powered automations
 4. Monitor your tools for updates
 
 ### Fine-tune Models
+
 1. **Read the comprehensive guides:**
    - **[Creating Training Data](docs/creating-training-data.md)** - How to prepare high-quality training data
    - **[Training Models](docs/training-models.md)** - Complete fine-tuning walkthrough
 2. **Start with examples:** Review **[examples/dataset.jsonl](examples/dataset.jsonl)** for 19 PM-focused examples
 3. **Create your dataset:** Build training data for your specific PM tasks
-4. **Train in LM Studio:** Follow the step-by-step training guide
+4. **Train with Ollama:** Use Ollama's Modelfile system for custom models
 5. **Test and iterate:** Continuously improve your specialized PM assistant
 
 ## 🔧 Advanced Configuration
 
 ### Environment Variables
+
 Customize ports and settings in `.env`:
-~~~bash
+
+```bash
 LLM_BASE_URL=http://localhost:1234/v1
 ANYTHINGLLM_PORT=3001
 N8N_PORT=5678
-~~~
+```
 
 **📄 See all variables:** Check [`config/env.example`](config/env.example) for complete list of customizable settings, including local LLM API keys and specialized model configurations.
 
 ### Managing Optional Services
+
 Start and manage additional tools:
-~~~bash
+
+```bash
 # Start individual optional services
 docker compose --profile optional up -d privategpt    # Alternative doc chat
 docker compose --profile optional up -d langflow      # Visual LLM workflows  
-docker compose --profile optional up -d ollama-webui  # Alternative to LM Studio
+docker compose --profile optional up -d ollama-webui  # Web UI for Ollama
 
 # Start all optional services at once
 docker compose --profile optional up -d
@@ -270,21 +304,24 @@ docker compose logs -f ollama-webui
 # Stop optional services
 docker compose --profile optional stop
 docker compose --profile optional down  # Stop and remove containers
-~~~
+```
 
 ### VS Code Configuration
-Continue.dev config is at [`config/continue.json`](config/continue.json) - automatically points to your local LM Studio server.
+
+Continue.dev config is at [`config/continue.json`](config/continue.json) - automatically points to your local Ollama server.
 
 ### Testing Installation
+
 Before running the full installer, test in dry-run mode:
-~~~bash
+
+```bash
 # Test full installation without making changes
 ./install.sh --dry-run           # macOS/Linux
 ./install.ps1 -DryRun            # Windows
 
-# Test individual components
-./scripts/install-lmstudio.sh --help          # See all options
-./scripts/install-lmstudio.sh --dry-run       # Test LM Studio install
+# Test individual components  
+./scripts/install-ollama.sh --help           # See all Ollama options
+./scripts/install-ollama.sh --dry-run        # Test Ollama install
 ./scripts/setup-env.sh                        # Test environment setup
 ./scripts/verify.sh                           # Test system health
 
@@ -294,7 +331,7 @@ docker compose config                         # Validate core services
 
 # Test individual optional service startup (quick test)
 docker compose --profile optional up -d langflow && sleep 30 && curl -f http://localhost:7860 && docker compose stop langflow
-~~~
+```
 
 **💡 For detailed testing procedures:** See [CLAUDE.md](CLAUDE.md) for comprehensive testing commands and development workflows.
 
@@ -303,53 +340,59 @@ docker compose --profile optional up -d langflow && sleep 30 && curl -f http://l
 ### Common Issues
 
 **Services not starting?**
-~~~bash
+
+```bash
 # Check Docker is running
 docker info
 
 # Restart services
 docker compose down && docker compose up -d
-~~~
+```
 
-**LM Studio not connecting?**
-~~~bash
-# Check if LM Studio server is running
-curl http://localhost:1234/v1/models
+**Ollama not connecting?**
 
-# Start LM Studio server manually
-~/.lmstudio/bin/lms server start --port 1234
+```bash
+# Check if Ollama server is running
+curl http://localhost:11434/api/tags
 
-# Or re-run LM Studio installer with dry-run first to test
-./scripts/install-lmstudio.sh --dry-run
-./scripts/install-lmstudio.sh
-~~~
+# Start Ollama server manually
+ollama serve
+
+# Or re-run Ollama installer with dry-run first to test
+./scripts/install-ollama.sh --dry-run
+./scripts/install-ollama.sh
+```
 
 **VS Code extensions not working?**
-~~~bash
+
+```bash
 # Reinstall extensions
 code --install-extension saoudrizwan.claude-dev
 code --install-extension Continue.continue
-~~~
+```
 
 **Port conflicts?**
 Edit `.env` file to change ports, then restart:
-~~~bash
+
+```bash
 docker compose down && docker compose up -d
-~~~
+```
 
 **Installer hanging or timing out?**
-~~~bash
+
+```bash
 # Test installer in dry-run mode first
 ./install.sh --dry-run           # macOS/Linux
 ./install.ps1 -DryRun            # Windows
 
-# Test LM Studio installer separately
-./scripts/install-lmstudio.sh --dry-run   # macOS/Linux
-./scripts/install-lmstudio.ps1 -DryRun    # Windows
-~~~
+# Test Ollama installer separately
+./scripts/install-ollama.sh --dry-run     # macOS/Linux
+./scripts/install-ollama.ps1 -DryRun      # Windows
+```
 
 **Package manager issues?**
-~~~bash
+
+```bash
 # macOS: Update Homebrew
 brew update && brew doctor
 
@@ -359,9 +402,10 @@ choco --version     # Check if Chocolatey available
 
 # Update pip for Python packages
 pip3 install --upgrade pip
-~~~
+```
 
 **Model fine-tuning issues?**
+
 - **Read the complete guides:**
   - `docs/creating-training-data.md` - Fix data format and quality issues
   - `docs/training-models.md` - Troubleshoot training parameters and performance
@@ -369,18 +413,22 @@ pip3 install --upgrade pip
 - **Adjust parameters:** Lower learning rate or reduce batch size for stability
 
 **Tools not connecting to local LLM?**
+
 - **Complete integration guide:** [Connecting Tools](docs/connecting-tools.md) - Step-by-step setup for VS Code, n8n, LangFlow, and more
 - **Terminology help:** [Terminology Guide](docs/terminology-guide.md) - Understand credentials, API keys, and environment variables
-- **Quick fixes:** Check LM Studio server running on port 1234, use correct model name, verify API endpoints
+- **Quick fixes:** Check Ollama server running on port 11434, use correct model name, verify API endpoints
 
 ### Health Check
+
 Run the verification script to check everything:
-~~~bash
+
+```bash
 ./scripts/verify.sh  # macOS/Linux
 .\scripts\verify.ps1  # Windows
-~~~
+```
 
 ### Get Help
+
 - **Documentation:** See [Complete Documentation](#-complete-documentation) section above for all guides
 - **Training Issues:** Check [Creating Training Data](docs/creating-training-data.md) and [Training Models](docs/training-models.md)
 - **Technical Details:** Review [CLAUDE.md](CLAUDE.md) for development context and commands
@@ -391,13 +439,15 @@ Run the verification script to check everything:
 ## 🗑️ Uninstalling
 
 ### Quick Removal
-~~~bash
+
+```bash
 ./uninstall.sh     # macOS/Linux
 .\uninstall.ps1    # Windows
-~~~
+```
 
 ### Manual Cleanup
-~~~bash
+
+```bash
 # Stop and remove containers
 docker compose down -v
 
@@ -407,7 +457,7 @@ docker rmi $(docker images -q mintplexlabs/anythingllm n8nio/n8n)
 # Remove VS Code extensions (optional)
 code --uninstall-extension saoudrizwan.claude-dev
 code --uninstall-extension Continue.continue
-~~~
+```
 
 ## 🤝 Contributing
 
@@ -421,18 +471,21 @@ This toolkit is designed for simplicity and reliability. When contributing:
 ## 📖 Learn More
 
 ### Platform Documentation
-- **LM Studio**: [lmstudio.ai](https://lmstudio.ai/) - Local model inference and fine-tuning
+
+- **Ollama**: [ollama.ai](https://ollama.ai/) - Local model inference and management
 - **AnythingLLM**: [docs.anythingllm.com](https://docs.anythingllm.com) - Document chat and RAG
 - **n8n**: [docs.n8n.io](https://docs.n8n.io) - Workflow automation
 - **Continue.dev**: [docs.continue.dev](https://docs.continue.dev) - AI coding assistant
 
 ### Training & Customization
+
 - **[Creating Training Data](docs/creating-training-data.md)** - Complete guide to preparing PM-specific datasets  
-- **[Training Models](docs/training-models.md)** - Step-by-step fine-tuning walkthrough with LM Studio
+- **[Training Models](docs/training-models.md)** - Step-by-step fine-tuning walkthrough with Ollama
 - **[Example Dataset](examples/dataset.jsonl)** - 19 ready-to-use PM training examples
 
 ### Integration & Configuration
-- **[Connecting Tools to Local LLMs](docs/connecting-tools-to-local-llms.md)** - Essential guide for connecting n8n and LangFlow to LM Studio/Ollama
+
+- **[Connecting Tools to Local LLMs](docs/connecting-tools-to-local-llms.md)** - Essential guide for connecting n8n and LangFlow to Ollama
 - **[Connecting All Tools](docs/connecting-tools.md)** - Connect VS Code, n8n, LangFlow, and all tools to your local LLM
 - **[CLI Agents](docs/cli-agents.md)** - Run n8n workflows and LangFlow flows as standalone command-line agents
 - **[Terminology Guide](docs/terminology-guide.md)** - Understand API keys, credentials, environment variables, and tool concepts
@@ -444,17 +497,18 @@ This toolkit is designed for simplicity and reliability. When contributing:
 
 **The installer is designed to be run multiple times safely.** It checks for existing installations and only updates what's needed:
 
-~~~bash
+```bash
 # Get latest version
 git pull origin main
 
 # Re-run installer (safe to run multiple times)
 ./install.sh
-~~~
+```
 
 ### 🛡️ Safety Features
 
 The installer includes comprehensive safety checks:
+
 - **Idempotent operations**: Won't reinstall existing packages
 - **Environment preservation**: Updates `.env` only if missing
 - **Guarded shell configs**: Uses markers to prevent duplicate entries  
@@ -464,6 +518,7 @@ The installer includes comprehensive safety checks:
 ### 📈 Recommended for Growing Toolkit
 
 As this toolkit expands (especially for webinar distribution), regular re-installation ensures:
+
 - Latest configuration templates
 - New tool integrations
 - Updated documentation
@@ -472,12 +527,14 @@ As this toolkit expands (especially for webinar distribution), regular re-instal
 ### 🚨 What Gets Updated vs. Preserved
 
 **Updated on each run:**
+
 - Package managers (Homebrew/apt) and packages
 - Docker images and container configurations
 - VS Code extensions
 - Documentation and example files
 
 **Preserved across runs:**
+
 - Your `.env` file (only created if missing)
 - Docker volumes and data
 - Your shell configuration (guarded blocks prevent duplicates)
@@ -490,13 +547,15 @@ Monitor your AI tools for updates using the included n8n workflow at http://loca
 **Why local AI matters in 2026**: Rising subscription costs, enterprise security requirements, and the need for customized domain models are driving the shift to local-first AI infrastructure.
 
 ### Key Benefits:
+
 - **💰 Cost Control**: Eliminate recurring AI subscriptions ($1,680+/year → $0 after hardware)
 - **🛡️ Complete Privacy**: All data stays on your machine, no external API calls
 - **🎨 Full Customization**: Fine-tune models for your specific PM domain and methodology
 - **⚡ No Limits**: Unlimited inference, parallel agents, rapid prototyping
 
 ### Technical Approach:
-- **100% Local Inference**: All models run on your hardware via LM Studio
+
+- **100% Local Inference**: All models run on your hardware via Ollama
 - **OpenAI-Compatible Protocol**: Tools connect to local endpoints, not cloud APIs
 - **Container Isolation**: Docker services communicate internally only
 - **Environment Variable Control**: All configurations point to local resources

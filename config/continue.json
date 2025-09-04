@@ -1,19 +1,17 @@
 {
   "models": [
     {
-      "title": "Local LM Studio",
-      "provider": "openai",
-      "model": "local-model",
-      "apiBase": "http://localhost:1234/v1",
-      "apiKey": "not-needed"
+      "title": "Local Ollama",
+      "provider": "ollama",
+      "model": "phi3:mini",
+      "apiBase": "http://localhost:11434"
     }
   ],
   "tabAutocompleteModel": {
-    "title": "Local LM Studio Autocomplete",
-    "provider": "openai",
-    "model": "local-model",
-    "apiBase": "http://localhost:1234/v1",
-    "apiKey": "not-needed"
+    "title": "Local Ollama Autocomplete",
+    "provider": "ollama",
+    "model": "phi3:mini",
+    "apiBase": "http://localhost:11434"
   },
   "customCommands": [
     {
@@ -89,9 +87,8 @@
   ],
   "allowAnonymousTelemetry": false,
   "embeddingsProvider": {
-    "provider": "openai",
-    "model": "text-embedding-3-small",
-    "apiBase": "http://localhost:1234/v1",
-    "apiKey": "not-needed"
+    "provider": "ollama",
+    "model": "nomic-embed-text",
+    "apiBase": "http://localhost:11434"
   }
 }

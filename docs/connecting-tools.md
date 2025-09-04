@@ -4,43 +4,43 @@
 
 ## 🎯 Overview
 
-This guide shows you exactly how to connect every tool in the AIPM Laptop LLM Kit to your local Phi-3 Mini model running in LM Studio. No need to hunt through multiple documentation sites - everything you need is right here.
+This guide shows you exactly how to connect every tool in the AIPM Laptop LLM Kit to your local Phi-3 Mini model running in Ollama. No need to hunt through multiple documentation sites - everything you need is right here.
 
 ## 🔧 Prerequisites
 
 Before connecting tools, ensure:
-- ✅ **LM Studio is running** with Phi-3 Mini model loaded
-- ✅ **Local server is active** on port 1234
+- ✅ **Ollama is running** with Phi-3 Mini model loaded
+- ✅ **Local server is active** on port 11434
 - ✅ **Environment variables configured** (copy `config/env.example` to `.env`)
-- ✅ **Model is responding** (test with: `curl http://localhost:1234/v1/models`)
+- ✅ **Model is responding** (test with: `curl http://localhost:11434/api/tags`)
 
 ### Environment Variables Setup
 1. **Copy template:** `cp config/env.example .env`
 2. **Edit `.env` file** with your preferred settings:
    ~~~bash
-   # Local LLM Configuration (LM Studio)
-   LLM_BASE_URL=http://localhost:1234/v1
-   LLM_API_KEY=local-lmstudio-key
-   LLM_MODEL_NAME=microsoft-phi-3-mini-4k-instruct-gguf
-   LLM_DOCKER_URL=http://host.docker.internal:1234/v1
+   # Primary Local LLM Configuration (Ollama)
+   OLLAMA_BASE_URL=http://localhost:11434/v1
+   OLLAMA_API_KEY=local-ollama-key
+   OLLAMA_MODEL_NAME=phi3:mini
+   OLLAMA_DOCKER_URL=http://ollama:11434/v1
    ~~~
 3. **Load environment:** `source .env` (or restart your terminal)
 
-### Quick LM Studio Setup
-1. **Open LM Studio** → Go to "Local Server" tab
-2. **Select Phi-3 Mini** from dropdown (or any model you prefer)
-3. **Click "Start Server"** → Should show "Server running on port 1234"
-4. **Test connection:** `curl http://localhost:1234/v1/models`
+### Quick Ollama Setup
+1. **Start Ollama:** `ollama serve` (or it may auto-start)
+2. **Download model:** `ollama pull phi3:mini` (done automatically during install)
+3. **Verify service:** Should be running on port 11434
+4. **Test connection:** `curl http://localhost:11434/api/tags`
 
 **Expected response:**
 ~~~json
 {
-  "object": "list",
-  "data": [
+  "models": [
     {
-      "id": "microsoft-phi-3-mini-4k-instruct-gguf",
-      "object": "model",
-      "owned_by": "microsoft"
+      "name": "phi3:mini",
+      "size": "2300000000",
+      "digest": "...",
+      "modified_at": "2024-01-01T00:00:00Z"
     }
   ]
 }
@@ -62,10 +62,9 @@ The Continue.dev extension is pre-configured to work with your local model, but 
   "models": [
     {
       "title": "Phi-3 Mini (Local)",
-      "provider": "openai",
-      "model": "microsoft-phi-3-mini-4k-instruct-gguf",
-      "apiBase": "http://localhost:1234/v1",
-      "apiKey": "not-needed"
+      "provider": "ollama",
+      "model": "phi3:mini",
+      "apiBase": "http://localhost:11434"
     }
   ],
   "customCommands": [
@@ -90,10 +89,9 @@ Add these to your `config.json` for PM-specific tasks:
   "models": [
     {
       "title": "Phi-3 Mini (Local)",
-      "provider": "openai", 
-      "model": "microsoft-phi-3-mini-4k-instruct-gguf",
-      "apiBase": "http://localhost:1234/v1",
-      "apiKey": "not-needed",
+      "provider": "ollama",
+      "model": "phi3:mini",
+      "apiBase": "http://localhost:11434",
       "requestOptions": {
         "temperature": 0.7,
         "maxTokens": 2048
@@ -144,7 +142,7 @@ Cline connects automatically, but here's how to optimize:
 
 ## 🚀 AnythingLLM Integration
 
-AnythingLLM is pre-configured to use your local LM Studio, but here's how to verify and customize:
+AnythingLLM is pre-configured to use your local Ollama server, but here's how to verify and customize:
 
 ### 1. Access AnythingLLM
 1. **Open browser:** http://localhost:3001
@@ -155,16 +153,16 @@ AnythingLLM is pre-configured to use your local LM Studio, but here's how to ver
 1. **Go to Settings** → "LLM Preference"
 2. **Should show:**
    - Provider: Generic OpenAI
-   - Base URL: `http://host.docker.internal:1234/v1`
+   - Base URL: `http://ollama:11434/v1`
    - API Key: `local-api-key`
-   - Model: `microsoft-phi-3-mini-4k-instruct-gguf`
+   - Model: `phi3:mini`
 
 ### 3. If Connection Fails
 Update settings manually:
 1. **LLM Provider:** Generic OpenAI
-2. **Base URL:** `http://host.docker.internal:1234/v1`
+2. **Base URL:** `http://ollama:11434/v1`
 3. **API Key:** `not-needed` (or any text)
-4. **Chat Model:** `microsoft-phi-3-mini-4k-instruct-gguf`
+4. **Chat Model:** `phi3:mini`
 5. **Click "Update"** and test with a message
 
 ### 4. Upload PM Documents
@@ -192,22 +190,22 @@ Connect n8n to your local LLM for automated PM workflows:
 
 ### 2. Create Local LLM Credentials
 
-> **⚠️ IMPORTANT:** There is no "LM Studio" or "Ollama" credential type in n8n. You MUST use the **"OpenAI API"** credential type instead. This works with any OpenAI-compatible API, including LM Studio and Ollama.
+> **⚠️ IMPORTANT:** There is no "Ollama" or "Ollama" credential type in n8n. You MUST use the **"OpenAI API"** credential type instead. This works with any OpenAI-compatible API, including Ollama and Ollama.
 
-#### Option A: LM Studio Connection
+#### Option A: Ollama Connection
 **Using Environment Variables:**
 1. **Settings** → **Credentials** → **Add Credential**
-2. **Search for "OpenAI"** → Select **"OpenAI API"** (NOT LM Studio)
+2. **Search for "OpenAI"** → Select **"OpenAI API"** (NOT Ollama)
 3. **Configure with environment variables:**
-   - **Name:** "Local LM Studio"
+   - **Name:** "Local Ollama"
    - **API Key:** `={{$env.LLM_API_KEY}}`
    - **Base URL:** `={{$env.LLM_DOCKER_URL}}`
 4. **Save** the credential
 
 **Direct Configuration:**
-- **Name:** "Local LM Studio"
-- **API Key:** `local-lmstudio-key`
-- **Base URL:** `http://host.docker.internal:1234/v1`
+- **Name:** "Local Ollama"
+- **API Key:** `local-ollama-key`
+- **Base URL:** `http://ollama:11434/v1`
 
 #### Option B: Ollama Connection
 **Using Environment Variables:**
@@ -226,7 +224,7 @@ Connect n8n to your local LLM for automated PM workflows:
 
 #### Option C: Multiple Local Providers
 Set up both for maximum flexibility:
-1. Create **both** LM Studio and Ollama credentials (see above)
+1. Create **both** Ollama and Ollama credentials (see above)
 2. Use whichever local model server you have running
 3. Switch between them as needed in different workflows
 
@@ -245,11 +243,11 @@ Set up different credentials for specialized models:
 
 ### 3. Test Connection with Simple Workflow
 
-#### Test LM Studio Connection:
+#### Test Ollama Connection:
 1. **Add "Manual Trigger"** node
 2. **Add "OpenAI" node** → Connect to trigger
 3. **Configure OpenAI node:**
-   - **Credential:** Select "Local LM Studio"
+   - **Credential:** Select "Local Ollama"
    - **Resource:** "Text"  
    - **Operation:** "Complete"
    - **Model:** `={{$env.LLM_MODEL_NAME}}` (uses environment variable)
@@ -268,10 +266,10 @@ Set up different credentials for specialized models:
 4. **Execute workflow** → Should get AI-generated response
 
 #### Test Both Providers (Advanced):
-Create a workflow that tries LM Studio first, then falls back to Ollama:
-1. **Manual Trigger** → **OpenAI (LM Studio)** → **IF Node**
-2. **IF condition:** Check if LM Studio response succeeded
-3. **True branch:** Use LM Studio response
+Create a workflow that tries Ollama first, then falls back to Ollama:
+1. **Manual Trigger** → **OpenAI (Ollama)** → **IF Node**
+2. **IF condition:** Check if Ollama response succeeded
+3. **True branch:** Use Ollama response
 4. **False branch:** **OpenAI (Ollama)** as backup
 
 #### Advanced Model Selection
@@ -290,7 +288,7 @@ const modelMap = {
 return [{
   json: {
     selectedModel: modelMap[taskType] || $env.LLM_MODEL_NAME,
-    selectedCredential: taskType === 'analysis' && $env.OPENAI_API_KEY ? 'General LLM' : 'Local LM Studio'
+    selectedCredential: taskType === 'analysis' && $env.OPENAI_API_KEY ? 'General LLM' : 'Local Ollama'
   }
 }];
 ~~~
@@ -359,9 +357,9 @@ docker compose --profile optional up -d langflow
 
 ### 3. Configure Local LLM Connection
 
-> **⚠️ NOTE:** LangFlow uses "OpenAI" components for ALL OpenAI-compatible APIs, including both LM Studio and Ollama.
+> **⚠️ NOTE:** LangFlow uses "OpenAI" components for ALL OpenAI-compatible APIs, including both Ollama and Ollama.
 
-#### Option A: LM Studio Configuration
+#### Option A: Ollama Configuration
 **Using Environment Variables:**
 1. **Create new flow** → Start with blank canvas
 2. **Add "OpenAI" component** from left sidebar  
@@ -372,8 +370,8 @@ docker compose --profile optional up -d langflow
    - **Temperature:** 0.7
 
 **Direct Configuration:**
-- **Base URL:** `http://host.docker.internal:1234/v1`
-- **API Key:** `local-lmstudio-key`
+- **Base URL:** `http://ollama:11434/v1`
+- **API Key:** `local-ollama-key`
 - **Model:** `phi-3-mini-4k-instruct`
 - **Temperature:** 0.7
 
@@ -395,7 +393,7 @@ docker compose --profile optional up -d langflow
 
 #### Option C: Multiple Provider Setup
 Create different flows for different providers:
-1. **LM Studio Flow:** For general tasks (faster startup)
+1. **Ollama Flow:** For general tasks (faster startup)
 2. **Ollama Flow:** For specific models (more model variety)
 3. **Hybrid Flow:** Try one provider, fallback to another
 
@@ -403,9 +401,9 @@ Create different flows for different providers:
 LangFlow can access environment variables from your `.env` file:
 1. **Create environment variables** in your `.env`:
    ~~~bash
-   LANGFLOW_LLM_URL=http://host.docker.internal:1234/v1
+   LANGFLOW_LLM_URL=http://ollama:11434/v1
    LANGFLOW_LLM_KEY=sk-local-key
-   LANGFLOW_LLM_MODEL=microsoft-phi-3-mini-4k-instruct-gguf
+   LANGFLOW_LLM_MODEL=phi3:mini
    ~~~
 2. **Reference in components** using `{VARIABLE_NAME}` syntax
 
@@ -469,7 +467,7 @@ Create a flow that uses different models for different tasks:
 
 ## 🐙 Ollama Web UI Integration (Optional)
 
-If you're using Ollama as an alternative to LM Studio:
+If you're using Ollama as an alternative to Ollama:
 
 ### 1. Install Ollama
 ~~~bash
@@ -500,7 +498,7 @@ docker compose --profile optional up -d ollama-webui
 4. **Start chatting**
 
 ### 5. Configure Other Tools for Ollama
-If using Ollama instead of LM Studio, update URLs:
+If using Ollama instead of Ollama, update URLs:
 - **Base URL:** `http://host.docker.internal:11434/api`
 - **Model:** `phi3:mini`
 
@@ -509,17 +507,17 @@ If using Ollama instead of LM Studio, update URLs:
 ### Common Issues and Solutions
 
 #### "Connection Refused" Errors
-**Problem:** Tools can't reach LM Studio
+**Problem:** Tools can't reach Ollama
 **Solutions:**
-1. **Check LM Studio server:** Is it running on port 1234?
-2. **Test locally:** `curl http://localhost:1234/v1/models`
-3. **For Docker containers:** Use `http://host.docker.internal:1234/v1`
-4. **For local tools:** Use `http://localhost:1234/v1`
+1. **Check Ollama server:** Is it running on port 11434?
+2. **Test locally:** `curl http://localhost:11434/v1/models`
+3. **For Docker containers:** Use `http://ollama:11434/v1`
+4. **For local tools:** Use `http://localhost:11434/v1`
 
 #### "Model Not Found" Errors
 **Problem:** Wrong model name in configuration
 **Solutions:**
-1. **Get exact model name:** `curl http://localhost:1234/v1/models`
+1. **Get exact model name:** `curl http://localhost:11434/v1/models`
 2. **Copy the "id" field** exactly
 3. **Update tool configurations** with correct name
 
@@ -552,8 +550,8 @@ If using Ollama instead of LM Studio, update URLs:
 
 #### n8n Issues
 
-**"Connection refused" or "Cannot find LM Studio/Ollama credential":**
-1. **Use "OpenAI API" credential type** (not LM Studio or Ollama)
+**"Connection refused" or "Cannot find Ollama/Ollama credential":**
+1. **Use "OpenAI API" credential type** (not Ollama or Ollama)
 2. **Check Docker networking** - ensure `docker-compose.yml` has:
    ```yaml
    n8n:
@@ -561,23 +559,23 @@ If using Ollama instead of LM Studio, update URLs:
        - "host.docker.internal:host-gateway"
    ```
 3. **Use correct Base URL:**
-   - LM Studio: `http://host.docker.internal:1234/v1`
+   - Ollama: `http://ollama:11434/v1`
    - Ollama: `http://host.docker.internal:11434/v1`
 4. **Check environment variables** - restart n8n after updating `.env`
 5. **Test with direct values** if environment variables fail:
-   - LM Studio: API Key `local-lmstudio-key`, URL `http://host.docker.internal:1234/v1`
+   - Ollama: API Key `local-ollama-key`, URL `http://ollama:11434/v1`
    - Ollama: API Key `local-ollama-key`, URL `http://host.docker.internal:11434/v1`
 
 **Provider-specific troubleshooting:**
 1. **Check if your provider is running:**
-   - LM Studio: `curl http://localhost:1234/v1/models`
+   - Ollama: `curl http://localhost:11434/v1/models`
    - Ollama: `curl http://localhost:11434/v1/models` or `ollama list`
 2. **Switch providers:** `./scripts/switch-provider.sh [lmstudio|ollama]`
 3. **Check Docker logs:** `docker compose logs -f n8n`
 4. **Restart containers:** `docker compose restart n8n langflow`
 
 **Model name issues:**
-- LM Studio: Use exact model ID from `curl http://localhost:1234/v1/models`
+- Ollama: Use exact model ID from `curl http://localhost:11434/v1/models`
 - Ollama: Use format like `phi3:mini`, `llama3.2:3b`, `mistral:7b`
 
 #### LangFlow Issues
@@ -592,17 +590,17 @@ Use environment variables to manage different models for different PM tasks:
 
 #### Example .env Configuration
 ~~~bash
-# General Purpose Model (LM Studio default)
-LLM_BASE_URL=http://localhost:1234/v1
-LLM_API_KEY=local-lmstudio-key
-LLM_MODEL_NAME=microsoft-phi-3-mini-4k-instruct-gguf
+# General Purpose Model (Ollama default)
+LLM_BASE_URL=http://localhost:11434/v1
+LLM_API_KEY=local-ollama-key
+LLM_MODEL_NAME=phi3:mini
 
-# PM-Specialized Fine-tuned Model (same LM Studio, different model)
-PM_SPECIALIST_URL=http://localhost:1234/v1
+# PM-Specialized Fine-tuned Model (same Ollama, different model)
+PM_SPECIALIST_URL=http://localhost:11434/v1
 PM_SPECIALIST_KEY=local-pm-specialist-key
 PM_SPECIALIST_MODEL=pm-assistant-v2-finetuned
 
-# Code-Specialized Model (separate LM Studio instance or different port)
+# Code-Specialized Model (separate Ollama instance or different port)
 CODE_SPECIALIST_URL=http://localhost:1235/v1  
 CODE_SPECIALIST_KEY=local-code-specialist-key
 CODE_SPECIALIST_MODEL=deepseek-coder-v2
@@ -714,11 +712,11 @@ return config
 #### 1. Environment Variable Naming Convention
 ~~~bash
 # Pattern: {PURPOSE}_{ATTRIBUTE}
-GENERAL_LLM_URL=http://localhost:1234/v1
+GENERAL_LLM_URL=http://localhost:11434/v1
 GENERAL_LLM_KEY=local-general-key
 GENERAL_LLM_MODEL=phi3-mini
 
-PM_SPECIALIST_URL=http://localhost:1234/v1  
+PM_SPECIALIST_URL=http://localhost:11434/v1  
 PM_SPECIALIST_KEY=local-pm-key
 PM_SPECIALIST_MODEL=pm-assistant-v2
 
@@ -780,7 +778,7 @@ ANTHROPIC_BUDGET_LIMIT=30.00
 ~~~
 
 ### Resource Management
-- **Concurrent connections:** LM Studio handles ~5 simultaneous requests well
+- **Concurrent connections:** Ollama handles ~5 simultaneous requests well
 - **Memory usage:** Monitor with Activity Monitor/Task Manager
 - **Response time:** Typically 2-10 seconds depending on prompt complexity
 

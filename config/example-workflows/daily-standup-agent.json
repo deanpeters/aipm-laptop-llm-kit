@@ -11,18 +11,20 @@
     },
     {
       "parameters": {
-        "content": "=Generate a daily standup template for a product manager. Include:\n- Yesterday's accomplishments\n- Today's priorities  \n- Any blockers or challenges\n- Key metrics to track\n- Action items for stakeholders\n\nFormat as a professional but friendly update suitable for a team meeting.",
-        "options": {}
+        "prompt": "=Generate a daily standup template for a product manager. Include:\n- Yesterday's accomplishments\n- Today's priorities  \n- Any blockers or challenges\n- Key metrics to track\n- Action items for stakeholders\n\nFormat as a professional but friendly update suitable for a team meeting.",
+        "model": "={{ $env.OLLAMA_MODEL_NAME }}",
+        "temperature": 0.3,
+        "maxTokens": 800
       },
       "id": "45f6d8c7-2a9b-4c8d-9e3f-1a5b6c7d8e9f",
       "name": "Generate Standup Content",
-      "type": "n8n-nodes-base.openAi", 
+      "type": "n8n-nodes-base.ollama", 
       "position": [480, 300],
       "typeVersion": 1,
       "credentials": {
-        "openAiApi": {
-          "id": "local-lm-studio",
-          "name": "Local LM Studio"
+        "ollamaApi": {
+          "id": "local-ollama",
+          "name": "Local Ollama"
         }
       }
     },
@@ -36,7 +38,7 @@
           "parameters": [
             {
               "name": "text",
-              "value": "=🌅 *Daily Standup - {{ new Date().toLocaleDateString() }}*\n\n{{ $json.choices[0].message.content }}"
+              "value": "=🌅 *Daily Standup - {{ new Date().toLocaleDateString() }}*\n\n{{ $json.response }}"
             }
           ]
         }

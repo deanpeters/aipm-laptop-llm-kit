@@ -346,12 +346,12 @@ main() {
     detect_os
     log "Detected OS: $OS with package manager: $PKG_MGR"
     
-    # Install LM Studio with automation
-    progress "Installing LM Studio with automated setup..."
+    # Install Ollama with automation
+    progress "Installing Ollama with automated setup..."
     if [[ "$DRY_RUN" == "true" ]]; then
-        log "[DRY RUN] Would install LM Studio with default model and start server"
+        log "[DRY RUN] Would install Ollama with default model and start server"
     else
-        "$SCRIPT_DIR/scripts/install-lmstudio.sh"
+        "$SCRIPT_DIR/scripts/install-ollama.sh"
     fi
     
     install_package_manager
@@ -368,14 +368,14 @@ main() {
     log ""
     log "Next steps:"
     if docker info >/dev/null 2>&1 && docker ps | grep -q "anythingllm.*n8n"; then
-        log "1. Open LM Studio → Download Phi-3 model → Start local server"
-        log "2. Access AnythingLLM: http://localhost:3001 (should auto-connect to LM Studio)"
+        log "1. Ollama service should be running with Phi-3 model"
+        log "2. Access AnythingLLM: http://localhost:3001 (auto-connects to Ollama)"
         log "3. Access n8n: http://localhost:5678"
         log "4. Open VS Code: code ."
     else
         log "1. Start Docker Desktop"
         log "2. Run: docker compose up -d anythingllm n8n"
-        log "3. Open LM Studio → Download Phi-3 model → Start local server"
+        log "3. Start Ollama service: ollama serve"
         log "4. Access AnythingLLM: http://localhost:3001"
         log "5. Access n8n: http://localhost:5678"
     fi

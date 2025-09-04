@@ -17,11 +17,11 @@ This file contains commands and notes for Claude Code when working on the AIPM L
 - ✅ **Core installer system** built and tested
 - ✅ **Cross-platform support** (macOS, Windows, Linux)
 - ✅ **Environment management** with guarded shell blocks
-- ✅ **Docker stack** configured (AnythingLLM + n8n + optional services)
+- ✅ **Docker stack** configured (AnythingLLM + n8n + Ollama + optional services)
 - ✅ **VS Code integration** with Continue.dev + Cline
 - ✅ **PM-focused examples** (19 fine-tuning samples)
 - ✅ **Comprehensive documentation** and uninstall system
-- ✅ **FULLY AUTOMATED LM STUDIO** - Downloads, installs, configures, and starts server
+- ✅ **FULLY AUTOMATED OLLAMA** - Downloads, installs, configures, and starts server
 - ✅ **AUTO MODEL DOWNLOAD** - Phi-3 Mini ready to use immediately
 - ✅ **ROBUST PACKAGE MANAGERS** - Homebrew/Chocolatey auto-install with updates
 - ✅ **PYTHON ECOSYSTEM** - pip updates + essential AI packages (OpenAI, LangChain, etc.)
@@ -44,9 +44,9 @@ This file contains commands and notes for Claude Code when working on the AIPM L
 ./install.sh --dry-run    # macOS/Linux - TESTED ✅
 ./install.ps1 -DryRun     # Windows
 
-# Test LM Studio installer separately (prevents hanging)
-./scripts/install-lmstudio.sh --dry-run   # macOS/Linux - TESTED ✅
-./scripts/install-lmstudio.ps1 -DryRun    # Windows
+# Test Ollama installer separately (prevents hanging)
+./scripts/install-ollama.sh --dry-run     # macOS/Linux - TESTED ✅
+./scripts/install-ollama.ps1 -DryRun      # Windows
 
 # Run actual installation
 ./install.sh             # macOS/Linux
@@ -103,11 +103,11 @@ docker compose logs -f n8n
 - Support macOS (brew), Windows (winget/choco), Linux (apt)
 
 ### Primary Tools Stack ✅ IMPLEMENTED
-1. **LM Studio** (local inference + fine-tuning) - Auto-detected + configured
+1. **Ollama** (local inference + model management) - Auto-detected + configured
 2. **AnythingLLM** (Docker, local RAG) - Configured + ready
 3. **VS Code + Cline + Continue.dev** (coding assistance) - Auto-install + configured  
 4. **n8n** (Docker, automation workflows) - Configured + ready
-5. **Optional services** (PrivateGPT, LangFlow, Ollama Web UI) - Available via profiles
+5. **Optional services** (PrivateGPT, LangFlow, LM Studio) - Available via profiles
 
 ### Documentation ✅ COMPLETE (Simplified Approach)
 - ✅ **README.md** - Comprehensive one-page guide with quick start
@@ -124,7 +124,7 @@ aipm-laptop-llm-kit/
 ├── scripts/
 │   ├── setup-env.sh/.ps1         # Environment management - WORKING ✅
 │   ├── verify.sh/.ps1            # Health checks - WORKING ✅
-│   ├── install-lmstudio.sh/.ps1  # LM Studio automation - WORKING ✅
+│   ├── install-ollama.sh/.ps1    # Ollama automation - WORKING ✅
 │   └── install-python-deps.sh    # Python packages - WORKING ✅
 ├── docs/
 │   ├── creating-training-data.md  # Complete training data guide - NEW ✅
@@ -166,7 +166,7 @@ aipm-laptop-llm-kit/
 #### CLI Agent System
 ~~~bash
 # Run n8n workflows as command-line agents
-./scripts/run-agent.sh WORKFLOW_ID --provider lmstudio --background
+./scripts/run-agent.sh WORKFLOW_ID --provider ollama --background
 
 # Run LangFlow flows as agents  
 ./scripts/run-langflow-agent.sh FLOW_ID --input "Generate user stories" --background

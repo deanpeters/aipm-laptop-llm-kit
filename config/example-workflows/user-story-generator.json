@@ -17,28 +17,27 @@
     },
     {
       "parameters": {
-        "content": "=Create a detailed user story based on this feature request:\n\n\"{{ $json.body.feature_description }}\"\n\nInclude:\n- User story in \"As a [user], I want [goal] so that [benefit]\" format\n- Acceptance criteria (3-5 specific, testable conditions)\n- Definition of done checklist\n- Potential edge cases to consider\n- Estimated story points (1, 2, 3, 5, 8, 13)\n\nTarget user: {{ $json.body.target_user || 'general user' }}\nPriority: {{ $json.body.priority || 'medium' }}",
-        "options": {
-          "model": "={{ $env.LLM_MODEL_NAME }}",
-          "temperature": 0.3
-        }
+        "prompt": "=Create a detailed user story based on this feature request:\n\n\"{{ $json.body.feature_description }}\"\n\nInclude:\n- User story in \"As a [user], I want [goal] so that [benefit]\" format\n- Acceptance criteria (3-5 specific, testable conditions)\n- Definition of done checklist\n- Potential edge cases to consider\n- Estimated story points (1, 2, 3, 5, 8, 13)\n\nTarget user: {{ $json.body.target_user || 'general user' }}\nPriority: {{ $json.body.priority || 'medium' }}",
+        "model": "={{ $env.OLLAMA_MODEL_NAME }}",
+        "temperature": 0.3,
+        "maxTokens": 1000
       },
       "id": "34c5d6e7-8f9a-0b1c-2d3e-4f5a6b7c8d9e",
       "name": "Generate User Story",
-      "type": "n8n-nodes-base.openAi",
+      "type": "n8n-nodes-base.ollama",
       "position": [460, 300],
       "typeVersion": 1,
       "credentials": {
-        "openAiApi": {
-          "id": "local-lm-studio", 
-          "name": "Local LM Studio"
+        "ollamaApi": {
+          "id": "local-ollama", 
+          "name": "Local Ollama"
         }
       }
     },
     {
       "parameters": {
         "respondWith": "json",
-        "responseBody": "={\n  \"status\": \"success\",\n  \"user_story\": {{ $json.choices[0].message.content | jsonStringify }},\n  \"generated_at\": \"{{ new Date().toISOString() }}\",\n  \"model_used\": \"{{ $env.LLM_MODEL_NAME }}\"\n}",
+        "responseBody": "={\n  \"status\": \"success\",\n  \"user_story\": {{ $json.response | jsonStringify }},\n  \"generated_at\": \"{{ new Date().toISOString() }}\",\n  \"model_used\": \"{{ $env.OLLAMA_MODEL_NAME }}\"\n}",
         "options": {}
       },
       "id": "56d7e8f9-0a1b-2c3d-4e5f-6a7b8c9d0e1f",
@@ -85,7 +84,7 @@
           "properties": [
             {
               "key": "Story",
-              "textContent": "={{ $('Generate User Story').item.json.choices[0].message.content }}"
+              "textContent": "={{ $('Generate User Story').item.json.response }}"
             },
             {
               "key": "Status", 

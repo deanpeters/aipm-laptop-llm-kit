@@ -1,46 +1,67 @@
 # Training Models for Product Management Tasks
 
-> **A complete guide to fine-tuning local LLMs using LM Studio for PM-specific tasks**
+> **A complete guide to customizing local LLMs using Ollama for PM-specific tasks**
 
 ## 🎯 Overview
 
-This guide walks Product Managers through the process of fine-tuning local language models using their custom training data. By the end, you'll have a specialized AI assistant that understands your PM workflows and generates content in your style.
+This guide walks Product Managers through the process of customizing local language models using Ollama's Modelfile system. By the end, you'll have a specialized AI assistant that understands your PM workflows and generates content in your style.
 
 ## 📋 Prerequisites
 
 Before starting, make sure you have:
-- ✅ **LM Studio installed and running** (installed by the main installer)
+- ✅ **Ollama installed and running** (installed by the main installer)
 - ✅ **Training data prepared** (see `docs/creating-training-data.md`)
-- ✅ **Base model downloaded** (Phi-3 Mini 4K Instruct recommended)
+- ✅ **Base model downloaded** (Phi-3 Mini recommended: `phi3:mini`)
 - ✅ **At least 8GB RAM** (16GB recommended for better performance)
 - ✅ **10GB free disk space** for model storage
 
-## 🚀 Quick Start (15 Minutes)
+## 🚀 Quick Start (10 Minutes)
 
-### Step 1: Open LM Studio
-1. Launch LM Studio from Applications/Start Menu
-2. If not already done, download Phi-3 Mini 4K Instruct from the "Discover" tab
-3. Go to the **"Fine-tuning"** tab (looks like a target icon)
+### Step 1: Verify Ollama Setup
+1. **Check Ollama is running:** `ollama serve`
+2. **Verify base model:** `ollama list` (should show `phi3:mini`)
+3. **Test base model:** `ollama run phi3:mini "Write a user story"`
 
-### Step 2: Load Your Training Data
-1. Click **"Select training file"**
-2. Navigate to your `.jsonl` file (e.g., `examples/dataset.jsonl`)
-3. LM Studio will validate the format and show preview
+### Step 2: Create a Modelfile for PM Tasks
+1. **Create Modelfile:** `nano PM-Assistant-Modelfile`
+2. **Add configuration:**
 
-### Step 3: Configure Training
-1. **Base Model:** Select "Phi-3 Mini 4K Instruct" 
-2. **Training Name:** Enter a descriptive name (e.g., "PM-Assistant-v1")
-3. **Advanced Settings:** Use defaults for first training
+~~~dockerfile
+FROM phi3:mini
 
-### Step 4: Start Training
-1. Click **"Start Fine-tuning"**
-2. Training typically takes 10-30 minutes depending on data size
-3. Monitor progress in the training log
+# Set parameters for PM tasks
+PARAMETER temperature 0.7
+PARAMETER top_p 0.9
+PARAMETER num_ctx 4096
 
-### Step 5: Test Your Model
-1. Once complete, go to the **"Chat"** tab
-2. Select your fine-tuned model from the dropdown
-3. Test with PM-specific prompts
+# PM-specific system prompt
+SYSTEM """You are a Product Manager AI assistant specialized in:
+- Writing clear user stories with acceptance criteria
+- Creating PRDs and technical specifications
+- Analyzing market trends and competitive landscapes
+- Facilitating agile ceremonies and stakeholder communication
+- Breaking down complex features into manageable tasks
+
+Always provide practical, actionable responses formatted for PM workflows."""
+
+# Example conversations from training data
+TEMPLATE """{{ if .System }}<|system|>
+{{ .System }}<|end|>
+{{ end }}{{ if .Prompt }}<|user|>
+{{ .Prompt }}<|end|>
+{{ end }}<|assistant|>
+{{ .Response }}<|end|>
+"""
+~~~
+
+### Step 3: Build Your Custom Model
+1. **Create the model:** `ollama create pm-assistant -f PM-Assistant-Modelfile`
+2. **Verify creation:** `ollama list` (should show `pm-assistant`)
+
+### Step 4: Test Your PM Assistant
+1. **Test the model:** `ollama run pm-assistant "Create a user story for user authentication"`
+2. **Compare with base:** `ollama run phi3:mini "Create a user story for user authentication"`
+3. **Notice the difference** in PM-specific formatting and terminology
 
 ## ⚙️ Advanced Configuration
 

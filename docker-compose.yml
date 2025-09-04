@@ -11,11 +11,23 @@ services:
     environment:
       - STORAGE_DIR=/app/server/storage
       - LLM_PROVIDER=custom-openai
-      - OPENAI_API_BASE_URL=${LLM_BASE_URL:-http://host.docker.internal:1234/v1}
+      - OPENAI_API_BASE_URL=${LLM_BASE_URL:-http://ollama:11434/v1}
       - OPENAI_API_KEY=local-api-key
     restart: unless-stopped
     extra_hosts:
       - "host.docker.internal:host-gateway"
+
+  # Ollama - Primary local LLM server
+  ollama:
+    image: ollama/ollama:latest
+    container_name: ollama
+    ports:
+      - "${OLLAMA_PORT:-11434}:11434"
+    volumes:
+      - "${OLLAMA_STORAGE:-./storage/ollama}:/root/.ollama"
+    environment:
+      - OLLAMA_HOST=0.0.0.0:11434
+    restart: unless-stopped
 
   # n8n - Workflow automation and monitoring
   n8n:
@@ -43,8 +55,8 @@ services:
       - OLLAMA_MODEL_NAME=${OLLAMA_MODEL_NAME:-phi3:mini}
       - OLLAMA_DOCKER_URL=${OLLAMA_DOCKER_URL:-http://host.docker.internal:11434/v1}
       # Provider Selection
-      - DEFAULT_LLM_PROVIDER=${DEFAULT_LLM_PROVIDER:-lmstudio}
-      - BACKUP_LLM_PROVIDER=${BACKUP_LLM_PROVIDER:-ollama}
+      - DEFAULT_LLM_PROVIDER=${DEFAULT_LLM_PROVIDER:-ollama}
+      - BACKUP_LLM_PROVIDER=${BACKUP_LLM_PROVIDER:-lmstudio}
     restart: unless-stopped
     extra_hosts:
       - "host.docker.internal:host-gateway"
@@ -83,8 +95,8 @@ services:
       - OLLAMA_MODEL_NAME=${OLLAMA_MODEL_NAME:-phi3:mini}
       - OLLAMA_DOCKER_URL=${OLLAMA_DOCKER_URL:-http://host.docker.internal:11434/v1}
       # Provider Selection
-      - DEFAULT_LLM_PROVIDER=${DEFAULT_LLM_PROVIDER:-lmstudio}
-      - BACKUP_LLM_PROVIDER=${BACKUP_LLM_PROVIDER:-ollama}
+      - DEFAULT_LLM_PROVIDER=${DEFAULT_LLM_PROVIDER:-ollama}
+      - BACKUP_LLM_PROVIDER=${BACKUP_LLM_PROVIDER:-lmstudio}
     restart: unless-stopped
     extra_hosts:
       - "host.docker.internal:host-gateway"
@@ -114,6 +126,8 @@ volumes:
   langflow_storage:
     driver: local
   ollama_webui_storage:
+    driver: local
+  ollama_storage:
     driver: local
 
 networks:

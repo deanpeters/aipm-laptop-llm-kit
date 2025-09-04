@@ -20,7 +20,7 @@ Transform your laptop into a powerful AI workstation with local models, document
 
 **🎯 New to AI fine-tuning?** Jump to [Creating Training Data](docs/creating-training-data.md) and [Training Models](docs/training-models.md)!
 
-**🔌 Tools pre-configured!** v1.05 includes automatic credential setup + early service launch - see [Connecting Tools](docs/connecting-tools.md) for details!
+**🔌 Tools pre-configured!** v1.06 includes automatic credential setup + early service launch + phi4-mini model - see [Connecting Tools](docs/connecting-tools.md) for details!
 
 ## 🚀 Quick Start
 
@@ -48,7 +48,7 @@ cd aipm-laptop-llm-kit
 - ✅ **Configure everything** to work together seamlessly
 - ✅ **Verify the installation** with comprehensive health checks
 
-## 🎉 **NEW in v1.05: Early Service Launch + Pre-Configured Connections + phi4-mini!**
+## 🎉 **NEW in v1.06: Early Service Launch + Pre-Configured Connections + phi4-mini!**
 
 **Major updates for better VS Code compatibility!** All tools now come with pre-configured connections to your local Ollama server + upgraded to phi4-mini:latest model:
 
@@ -353,7 +353,7 @@ docker compose --profile optional up -d langflow && sleep 30 && curl -f http://l
 
 ## 🩺 Troubleshooting
 
-### Pre-Configuration Issues (v1.05)
+### Pre-Configuration Issues (v1.06)
 
 **Pre-configured credentials not appearing?**
 

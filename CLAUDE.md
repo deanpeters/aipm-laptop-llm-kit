@@ -4,9 +4,9 @@ This file contains commands and notes for Claude Code when working on the AIPM L
 
 ## 🎉 PROJECT STATUS: OLLAMA-POWERED & PRODUCTION-READY! ✅
 
-**AIPM Laptop LLM Kit v1.05** - Early service launch + comprehensive pre-configuration!
+**AIPM Laptop LLM Kit v1.06** - Early service launch + comprehensive pre-configuration + phi4-mini!
 
-### 🚀 **LATEST ACHIEVEMENTS (v1.05 - EARLY SERVICE LAUNCH + PRE-CONFIGURED CREDENTIALS):**
+### 🚀 **LATEST ACHIEVEMENTS (v1.06 - PHI4-MINI + EARLY SERVICE LAUNCH + PRE-CONFIGURED CREDENTIALS):**
 - ✅ **PRE-CONFIGURED CREDENTIALS** - All tools auto-configured with Ollama connections
 - ✅ **EARLY SERVICE LAUNCH** - Docker/Ollama detected and started early in installer with background execution
 - ✅ **ROBUST ERROR HANDLING** - Services launch with & background execution, no installation failures
@@ -20,7 +20,7 @@ This file contains commands and notes for Claude Code when working on the AIPM L
 - ✅ **ZERO MANUAL CONFIG** - Eliminates complexity for low-tech Product Managers
 - ✅ **LEARNING BY EXAMPLE** - Working configurations show PMs how connections work
 
-### 🛠️ **CORE FEATURES (v1.05 Complete):**
+### 🛠️ **CORE FEATURES (v1.06 Complete):**
 - ✅ **SMART INSTALLER WITH EARLY SERVICES** - Detects, launches Docker/Ollama early with background execution
 - ✅ **COMPREHENSIVE PRE-CONFIGURATION** - All tools auto-configured with Ollama connections
 - ✅ **ZERO-SETUP CREDENTIALS** - n8n, AnythingLLM, LangFlow, Continue.dev, Cline ready instantly
@@ -47,7 +47,7 @@ This file contains commands and notes for Claude Code when working on the AIPM L
 - **Repository:** https://github.com/deanpeters/aipm-laptop-llm-kit (LIVE ON GITHUB)
 - **Role:** Senior build/release engineer
 - **Path:** ~/Code/AIPM_Laptop_LLM_Kit
-- **Status:** ✅ v1.05 EARLY-SERVICE-LAUNCH - GitHub published, webinar-ready, community-enabled
+- **Status:** ✅ v1.06 PHI4-MINI-POWERED - GitHub published, webinar-ready, community-enabled
 
 ## Key Commands
 
